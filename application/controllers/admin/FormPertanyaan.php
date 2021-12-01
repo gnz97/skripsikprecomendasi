@@ -29,10 +29,12 @@ class FormPertanyaan extends CI_Controller{
            
            $data['dataJawabanPilihSingle'] =$this->Jawaban_m->getJawabanPilihSingleAll($pertanyaanID)->result();
            $data['dataJawabanPilihMultiple'] =$this->Jawaban_m->getJawabanPilihMultipleAll($pertanyaanID)->result();
-           foreach($data['dataJawabanPilihMultiple'] as $rowJawabanPilihMultiple){
-               $multipleID[] = $rowJawabanPilihMultiple->jawabanPMID;
+           if($data['dataJawabanPilihMultiple'] != null){
+                foreach($data['dataJawabanPilihMultiple'] as $rowJawabanPilihMultiple){
+                    $multipleID[] = $rowJawabanPilihMultiple->jawabanPMID;
+                }
+                $data['dataJawabanPilihMultipleDetail'] =$this->Jawaban_m->getJawabanPilihMultipleDetailAll($multipleID)->result();
            }
-           $data['dataJawabanPilihMultipleDetail'] =$this->Jawaban_m->getJawabanPilihMultipleDetailAll($multipleID)->result();
        }
        
        // echo json_encode($data);

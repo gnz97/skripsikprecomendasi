@@ -108,7 +108,21 @@
                             </div>     
                         </div>    
                         
-            <?php }}}  ?>
+                        <?php }   ?>
+                                <?php }else if($rowPertanyaan->pertanyaanKategoriJawaban == 'alamat'){ ?>
+                                        <div class="card w-100">
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <label for="exampleFormControlTextarea1" style="font-weight: normal;"><?=$rowPertanyaan->pertanyaanDesk?></label>
+                                                    <div id="provinsi"></div>
+                                                    <div id="Kabupaten"></div>
+                                                </div>                                                
+                                            </div>
+                                        </div>
+                                
+                                <?php } ?>
+
+                            <?php } ?>
             </div>
         <button type="submit" class="btn btn-primary" id="add">Submit</button>
         <?php } ?>
@@ -168,7 +182,64 @@ $(document).ready(function(){
         
     });
 
+///////////////////////////////////////
 
+    dataIndodaxAPI();
+    function dataIndodaxAPI(){
+        $.ajax({
+            type: 'GET',
+            url: 'https://dev.farizdotid.com/api/daerahindonesia/provinsi',
+            dataType: 'json',
+            success: function (data) {
+                html = '';
+               html +='<div class="form-group">'
+                    +'<label>Provinsi</label>'
+                    +'<select class="custom-select" id="pilihanAlamatProvinsi" name="pilihanAlamatProvinsi">'
+                    +'<option id="">pilih</option>';
+               $.each(data, function(index, element) { 
+                    $.each(element, function(index1, element1) { 
+                        html += '<option id="'+element1.id+'" value="'+element1.id+'">'+element1.nama+'</option>';
+                    });
+                }); 
+                html +='</select>'
+                    +'</div>';
+                 $('#provinsi').html(html);
+
+            }
+        });
+
+    }
+
+
+    $(document).on('change', '#pilihanAlamatProvinsi',function(){
+        var html = '';
+        var id = $(this).val();
+        console.log(id);
+        $.ajax({
+            type: 'GET',
+            url: 'https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi='+id,
+            dataType: 'json',
+            success: function (data) {
+                html = '';
+               html +='<div class="form-group">'
+                    +'<label>Kabupaten</label>'
+                    +'<select class="custom-select" id="pilihanAlamatKabupaten" name="pilihanAlamatKabupaten">'
+                    +'<option id="">pilih</option>';
+               $.each(data, function(index, element) { 
+                    $.each(element, function(index1, element1) { 
+                        html += '<option id="'+element1.id+'" value="'+element1.id+'">'+element1.nama+'</option>';
+                    });
+                }); 
+                html +='</select>'
+                    +'</div>';
+                 $('#Kabupaten').html(html);
+
+            }
+        });
+    });
+
+    
+///////////////////////////////////////////
   
 
   
@@ -185,14 +256,14 @@ $(document).ready(function(){
                     if(data.status == 'success'){
                         console.log("sukses");
                     
-                        // Swal.fire({
-                        //     icon: 'success',
-                        //     title: 'Berhasil',
-                        //     text: 'Data Berhasil Di Tambahkan!',
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data Berhasil Di Tambahkan!',
                         
-                        // }).then(function() {
-                        //     window.location.assign("<?php echo base_url();?>admin/ChatKategori");
-                        // });
+                        }).then(function() {
+                            window.location.assign("<?php echo base_url();?>user/Pertanyaan/");
+                        });
                     
                     }else{
                         // console.log(data);

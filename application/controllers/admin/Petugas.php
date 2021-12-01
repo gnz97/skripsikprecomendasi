@@ -49,4 +49,21 @@ class Petugas extends CI_Controller{
         echo json_encode($response);
     }
 
+
+    public function deletePetugas(){
+        $id = $this->input->post('id');
+        $this->Petugas_m->deletePetugas($id);
+        $error = $this->db->error();
+        if($error['code'] != 0){
+            $response = array(
+                'status' 	=> 'gagal',
+            );
+        }else{
+            $response = array(
+                'status' 	=> 'success',
+            );
+        }
+        echo json_encode($response);
+    }
+
 }

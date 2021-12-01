@@ -57,4 +57,36 @@ class Alumni extends CI_Controller{
 
     }
 
+    public function deleteAlumni(){
+        $id = $this->input->post('id');
+        $this->Alumni_m->deleteAlumni($id);
+        $error = $this->db->error();
+        if($error['code'] != 0){
+            $response = array(
+                'status' 	=> 'gagal',
+            );
+        }else{
+            $response = array(
+                'status' 	=> 'success',
+            );
+        }
+        echo json_encode($response);
+    }
+
+
+    // public function getImport(){
+    //     ini_set('error_reporting', E_ALL);
+    //     ini_set('display_errors', true);
+        
+    //     require_once __DIR__.'/../src/SimpleXLSX.php';
+        
+    //     echo '<h1>Parse books.xslx</h1><pre>';
+    //     if ( $xlsx = SimpleXLSX::parse('books.xlsx') ) {
+    //         print_r( $xlsx->rows() );
+    //     } else {
+    //         echo SimpleXLSX::parseError();
+    //     }
+    //     echo '<pre>';
+    // }
+
 }

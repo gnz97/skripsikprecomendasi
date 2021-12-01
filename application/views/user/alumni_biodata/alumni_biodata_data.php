@@ -24,7 +24,8 @@
                                     <th width="5%">#</th>
                                     <th>Nim</th>
                                     <th>Nama</th>
-                                    <th>Jurusan</th>
+                                    <th>Prodi</th>
+                                    <th>Fakultas</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -36,7 +37,8 @@
                                     <td><?=$i++?></td>
                                     <td><?=$rowAlumni->alumniNim?></td>
                                     <td><?=$rowAlumni->alumniNama?></td>
-                                    <td><?=$rowAlumni->alumniNim?></td>
+                                    <td><?=$rowAlumni->alumniProdi?></td>
+                                    <td><?=$rowAlumni->alumniFakultas?></td>
                                     <td>
                                         <a href="<?=base_url('user/BiodataAlumni/viewEditAlumni/'.$rowAlumni->alumniID)?>">
                                             <button class="btn btn-sm btn-warning" id="btn-edit">Edit</button>

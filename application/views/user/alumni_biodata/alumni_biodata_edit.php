@@ -38,8 +38,12 @@
                                 <input type="text" name="alumniNama" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nama" value="<?=$rowAlumni->alumniNama?>">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Jurusan</label>
-                                <input type="text" name="alumniJurusan" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jurusan" value="<?=$rowAlumni->alumniJurusan?>">
+                                <label for="exampleInputEmail1">Prodi</label>
+                                <input type="text" name="alumniProdi" class="form-control" id="exampleInputEmail1" placeholder="Masukan Prodi" value="<?=$rowAlumni->alumniProdi?>">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Fakultas</label>
+                                <input type="text" name="alumniFakultas" class="form-control" id="exampleInputEmail1" placeholder="Masukan alumniFakultas" value="<?=$rowAlumni->alumniFakultas?>">
                             </div>
 
                             <div class="form-group">

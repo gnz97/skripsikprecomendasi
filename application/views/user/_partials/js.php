@@ -23,6 +23,7 @@
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="<?= base_url()?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+<script src="<?= base_url()?>assets/plugins/sweetalert2/sweetalert2.min.js"></script>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/3.1.3/js/bootstrap-datetimepicker.min.js"></script> -->
 <script>
   $(function () {

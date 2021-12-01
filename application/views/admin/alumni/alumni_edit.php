@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">NIK</label>
-                                        <input type="text" name="alumniNik" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nik" value="<?=$rowAlumni->alumniNim?>">
+                                        <input type="text" name="alumniNik" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nik" value="<?=$rowAlumni->alumniNik?>">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">NPWP</label>
@@ -55,8 +55,12 @@
                                         <input type="text" name="alumniNama" class="form-control" id="exampleInputEmail1" placeholder="Masukan Nama" value="<?=$rowAlumni->alumniNama?>">
                                     </div>
                                     <div class="form-group">
-                                        <label for="exampleInputEmail1">Jurusan</label>
-                                        <input type="text" name="alumniJurusan" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jurusan" value="<?=$rowAlumni->alumniJurusan?>">
+                                        <label for="exampleInputEmail1">Prodi</label>
+                                        <input type="text" name="alumniProdi" class="form-control" id="exampleInputEmail1" placeholder="Masukan Prodi" value="<?=$rowAlumni->alumniProdi?>">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="exampleInputEmail1">Fakultas</label>
+                                        <input type="text" name="alumniFakultas" class="form-control" id="exampleInputEmail1" placeholder="Masukan Fakultas" value="<?=$rowAlumni->alumniFakultas?>">
                                     </div>
 
                                     <div class="form-group">
@@ -68,7 +72,7 @@
                                                 </span>
                                             </div>
                                             <!-- <input type="text" class="form-control float-right" id="reservation"> -->
-                                            <input type="text" name="alumniThnLulus" id="datepicker" class="form-control"  placeholder="Masukan Tahun Lulus">
+                                            <input type="text" name="alumniThnLulus" id="datepicker" class="form-control" value="<?=$rowAlumni->alumniTahunLulus?>" placeholder="Masukan Tahun Lulus">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -89,7 +93,8 @@
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Alamat</label>
-                                        <input type="text" name="alumniAlamat" class="form-control" id="exampleInputEmail1" placeholder="Masukan Alamat" value="<?=$rowAlumni->alumniAlamat?>">
+                                        <textarea name="alumniAlamat" class="form-control" id="" cols="30" rows="10" placeholder="Masukan Alamat"><?=$rowAlumni->alumniAlamat?></textarea>
+                                        <!-- <input type="text" name="alumniAlamat" class="form-control" id="exampleInputEmail1" placeholder="Masukan Alamat" value=""> -->
                                     </div>
                                 </div>
                                 <!-- /.card-body -->
@@ -148,22 +153,22 @@
                 data : $('#formAdd').serialize(),
                 success: function(data){
                     console.log(data);
-                    // if(data.status == 'success'){
-                    //     console.log("sukses");
+                    if(data.status == 'success'){
+                        console.log("sukses");
                     
-                    //     Swal.fire({
-                    //         icon: 'success',
-                    //         title: 'Berhasil',
-                    //         text: 'Data Berhasil Di Tambahkan!',
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data Berhasil Di Tambahkan!',
                         
-                    //     }).then(function() {
-                    //         window.location.assign("<?php echo base_url();?>admin/ChatKategori");
-                    //     });
+                        }).then(function() {
+                            window.location.assign("<?php echo base_url();?>admin/Alumni");
+                        });
                     
-                    // }else{
-                    //     $('.gejalaCode_error').html(data.gejalaCode);
-                    //     $('.gejalaNama_error').html(data.gejalaNama);
-                    // } 
+                    }else{
+                        $('.gejalaCode_error').html(data.gejalaCode);
+                        $('.gejalaNama_error').html(data.gejalaNama);
+                    } 
                 }
             });
             return false;

@@ -59,6 +59,11 @@ class JawabanAlumni_m extends CI_Model{
         return $id;
     }
 
+    public function deleteJawabanAlumni($id){
+        $this->db->where_in('jawabanAlumni_alumniID', $id);
+        $this->db->delete('tb_jawaban_alumni');
+    }
+
 
     //////////////////////////////////////////////////////
     public function getJawabanEssayByjawabanAlumniAll(){
@@ -103,6 +108,11 @@ class JawabanAlumni_m extends CI_Model{
         return $id;
     }
 
+    public function deleteJawabanAlumniEssay($id){
+        $this->db->where_in('jawabanAlumniEsay_jawabanAlumniID', $id);
+        $this->db->delete('tb_jawaban_alumni_essay');
+    }
+
     ///////////////////////////////////////////////////////////////
 
     public function getJawabanPSByjawabanAlumniAll(){
@@ -115,7 +125,7 @@ class JawabanAlumni_m extends CI_Model{
 
 
     public function getJawabanPSByjawabanAlumniID($id){
-        $this->db->where('jawabanAlumniPS_jawabanAlumniID', $id);
+        $this->db->where_in('jawabanAlumniPS_jawabanAlumniID', $id);
         $this->db->from('tb_jawaban_alumni_ps');
         $this->db->join('tb_jawaban_ps', 'tb_jawaban_ps.jawabanPSID = tb_jawaban_alumni_ps.jawabanAlumniPS_jawabanPSID');
         $query = $this->db->get();
@@ -132,7 +142,7 @@ class JawabanAlumni_m extends CI_Model{
     }
 
     public function getJawabanAlumniPSCheck($post){
-        $this->db->where('jawabanAlumniPS_jawabanAlumniID', $post['jawabanAlumniID']);
+        $this->db->where_in('jawabanAlumniPS_jawabanAlumniID', $post['jawabanAlumniID']);
         $this->db->from('tb_jawaban_alumni_ps');
         $query = $this->db->get();
         return $query;
@@ -157,6 +167,11 @@ class JawabanAlumni_m extends CI_Model{
         $query = $this->db->update('tb_jawaban_alumni_ps', $params);
         $id = $this->db->insert_id();
         return $id;
+    }
+
+    public function deleteJawabanAlumniPS($id){
+        $this->db->where_in('jawabanAlumniPS_jawabanAlumniID', $id);
+        $this->db->delete('tb_jawaban_alumni_ps');
     }
 
     ///////////////////////////////////////////////////////////////
@@ -251,6 +266,56 @@ class JawabanAlumni_m extends CI_Model{
         $id = $this->db->insert_id();
         return $id;
     }
+
+    public function deleteJawabanAlumniPM($id){
+        $this->db->where('jawabanAlumniPM_jawabanAlumniID', $id);
+        $this->db->delete('tb_jawaban_alumni_pm');
+    }
+
+
+    ////////////////////////////////////////////////////////////////
     
+    public function getJawabanAlumniAlamat(){
+        $this->db->select('*');
+        $this->db->from('tb_jawaban_alumin_alamat');
+        // $this->db->join('tb_jawaban_ps', 'tb_jawaban_ps.jawabanPSID = tb_jawaban_alumin_alamat.jawabanAlumniAlamat_jawabanAlumniID');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function getJawabanAlumniAlamatCheck($post){
+        $this->db->where('jawabanAlumniAlamat_jawabanAlumniID', $post['jawabanAlumniID']);
+        $this->db->from('tb_jawaban_alumin_alamat');
+        $query = $this->db->get();
+        return $query;
+    }
+
+    public function editJawabanAlumniAlamat($post){
+        $params = array(
+            'jawabanAlumniAlamat_jawabanAlumniID' => $post['jawabanAlumniID'],
+            'jawabanAluminAlamatProvinsi' => $post['pilihanAlamatProvinsi'],
+            'jawabanAluminAlamatKabupaten' => $post['pilihanAlamatKabupaten'],
+        );
+        $this->db->where('jawabanAluminAlamatID', $post['jawabanAlumniAlamatID']);
+        $query = $this->db->update('tb_jawaban_alumin_alamat', $params);
+        $id = $this->db->insert_id();
+        return $id;
+    }
+    
+    public function addJawabanAlumniAlamat($post){
+        $params = array(
+            'jawabanAlumniAlamat_jawabanAlumniID' => $post['jawabanAlumniID'],
+            'jawabanAluminAlamatProvinsi' => $post['pilihanAlamatProvinsi'],
+            'jawabanAluminAlamatKabupaten' => $post['pilihanAlamatKabupaten'],
+        );
+        $this->db->insert('tb_jawaban_alumin_alamat', $params);
+        $id = $this->db->insert_id();
+        return $id;
+    }
+
+    public function deleteJawabanAlumniAlama($id){
+        $this->db->where('jawabanAlumniAlamat_jawabanAlumniID', $id);
+        $this->db->delete('tb_jawaban_alumin_alamat');
+    }
    
 }

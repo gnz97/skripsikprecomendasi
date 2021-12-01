@@ -33,6 +33,7 @@ class HasilPertanyaan extends CI_Controller{
         $data['dataJawabanAlumniPS'] = $this->JawabanAlumni_m->getJawabanPSByjawabanAlumniAll()->result();
         $data['dataJawabanAlumniPSLanjut'] = $this->JawabanAlumni_m->getJawabanAlumniPSLanjutAll()->result();
         $data['dataJawabanAlumniPM'] = $this->JawabanAlumni_m->getJawabanPMByjawabanAlumniAll()->result();
+        $data['dataJawabanAlumniAlamat'] = $this->JawabanAlumni_m->getJawabanAlumniAlamat()->result();
         // echo json_encode($data);
         $this->load->view('admin/hasil_pertanyaan/hasilpertanyaan_detail', $data);
 
@@ -55,6 +56,93 @@ class HasilPertanyaan extends CI_Controller{
 
     // Delete Hasil_pertanyaan
     public function deleteHasilpertanyaan(){
-        $this->load->view('admin/hasil_pertanyaan/hasilpertanyaan_delete');
+
+        $id = $this->input->post('id');
+        $dataHasilPertanyaan = $this->JawabanAlumni_m->getJawabanByAlumniID($id)->result();
+        foreach($dataHasilPertanyaan as $rowHasilPertanyaan){
+            if($rowHasilPertanyaan->pertanyaanKategoriJawaban == 'esay'){
+                $this->JawabanAlumni_m->deleteJawabanAlumniEssay($rowHasilPertanyaan->jawabanAlumniID);
+                $error = $this->db->error();
+                if($error['code'] != 0){
+                    $response = array(
+                        'status' 	=> 'gagal',
+                    );
+                }else{
+                    $response = array(
+                        'status' 	=> 'success',
+                    );
+                }
+            }
+            if($rowHasilPertanyaan->pertanyaanKategoriJawaban == 'pilihan'){
+                if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+                    // $zx = ;
+                    $dataPertanyaanPilihan = $this->JawabanAlumni_m->getJawabanPSByjawabanAlumniID($rowHasilPertanyaan->jawabanAlumniID)->row();
+                   
+                    if($dataPertanyaanPilihan != null){
+
+                    
+                        if($dataPertanyaanPilihan->jawabanPSLanjutan == 'aktif'){
+                            $this->JawabanAlumni_m->deleteJawabanAlumniPSLanjut($dataPertanyaanPilihan->jawabanAlumniPSID);
+                        }
+                    }
+
+                    $this->JawabanAlumni_m->deleteJawabanAlumniPS($rowHasilPertanyaan->jawabanAlumniID);
+                    $error = $this->db->error();
+                    if($error['code'] != 0){
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }else{
+                        $response = array(
+                            'status' 	=> 'success',
+                        );
+                    }
+
+                }else if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){
+                    $this->JawabanAlumni_m->deleteJawabanAlumniPM($rowHasilPertanyaan->jawabanAlumniID);
+                    $error = $this->db->error();
+                    if($error['code'] != 0){
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }else{
+                        $response = array(
+                            'status' 	=> 'success',
+                        );
+                    }
+
+                }
+            }
+            if($rowHasilPertanyaan->pertanyaanKategoriJawaban == 'alamat'){
+                $this->JawabanAlumni_m->deleteJawabanAlumniAlama($rowHasilPertanyaan->jawabanAlumniID);
+                $error = $this->db->error();
+                if($error['code'] != 0){
+                    $response = array(
+                        'status' 	=> 'gagal',
+                    );
+                }else{
+                    $response = array(
+                        'status' 	=> 'success',
+                    );
+                }
+            }
+       
+            $this->JawabanAlumni_m->deleteJawabanAlumni($rowHasilPertanyaan->jawabanAlumni_alumniID);
+            $error = $this->db->error();
+            if($error['code'] != 0){
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }
+        
+       
+        }
+
+       
+        echo json_encode($response);
     }
 }

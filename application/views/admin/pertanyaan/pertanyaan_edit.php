@@ -36,34 +36,38 @@
                         <!-- /.card-header -->
                         <!-- form start -->
                             <form id="formAdd" >
+                                
+                                <input type="text" name="pertanyaanID" class="form-control" id="pertanyaanDeskripsi" value="<?=$rowPertanyaan->pertanyaanID?>">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Pertanyaan Kategori</label>
                                         <select class="custom-select" name="pertanyaanKategori">
                                             <option>pilih</option>
                                             <?php foreach($dataPertanyaanKategori as $rowpertanyaanKategori){?>
-                                            <option value="<?=$rowpertanyaanKategori->pertanyaanKID?>"><?=$rowpertanyaanKategori->pertanyaanKDesk?></option>
+                                            <option value="<?=$rowpertanyaanKategori->pertanyaanKID?>" <?=$rowpertanyaanKategori->pertanyaanKID == $rowPertanyaan->pertanyaan_pertanyaanKID ? 'selected' : ''?>><?=$rowpertanyaanKategori->pertanyaanKDesk?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Pertanyaan Deskripsi</label>
-                                        <input type="text" name="pertanyaanDeskripsi" class="form-control" id="pertanyaanDeskripsi" placeholder="Masukan Pertanyaan">
+                                        <input type="text" name="pertanyaanDeskripsi" class="form-control" id="pertanyaanDeskripsi" value="<?=$rowPertanyaan->pertanyaanDesk?>">
                                     </div>
+
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Pertanyaan Urutan</label>
-                                        <input type="text" name="pertanyaanUrutan" class="form-control" id="pertanyaanUrutan" placeholder="Masukan Pertanyaan">
+                                        <input type="text" name="pertanyaanUrutan" class="form-control" id="pertanyaanUrutan" value="<?=$rowPertanyaan->pertanyaanUrutan?>">
                                     </div>
-                                    
+                                    <div id="kjawaban"><?=$rowPertanyaan->pertanyaanKriteriaJawaban?></div>
                                     <div class="form-group">
                                         <label>Kategori Jawaban</label>
                                         <select class="custom-select" id="jawabanKategori" name="jawabanKategori">
                                             <option>pilih</option>
-                                            <option value="esay">Jawaban Esay</option>
-                                            <option value="pilihan">Jawaban Pilihan</option>
+                                            <option value="esay" <?=$rowPertanyaan->pertanyaanKategoriJawaban == 'esay' ? 'selected' : ''?> jkategori="esay">Jawaban Esay</option>
+                                            <option value="pilihan" <?=$rowPertanyaan->pertanyaanKategoriJawaban == 'pilihan' ? 'selected' : ''?> jkategori="pilihan">Jawaban pilihan</option>
                                         </select>
                                     </div>
+
                                     
                                     <hr>
                                     <div id="pilihanJawaban"></div>
@@ -75,6 +79,11 @@
                                     <div id="pilihanMultiple"></div>
                                     <!-- <div id="pilihanEsay"></div> -->
                                    
+
+
+
+
+
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
@@ -109,29 +118,62 @@
 
     <script>
 $(document).ready(function(){
-   
-    $('#jawabanKategori').on('change', function(){
+
+    $(document).ready(function(){
         var html = '';
         var a = $(this).val();
-        if(a == 'esay'){
+        var b = $('#kjawaban').html();
+        var zx = $('#jawabanKategori').find('option:selected').attr('jkategori');
+        console.log(zx);
+        console.log(b);
+        if(zx == 'esay'){
             $('#esayJawaban').removeClass('d-none');
             $('#pilihanJawaban').addClass('d-none');
             $('#pilihanSingle').addClass('d-none');
             $('#pilihanMultiple').addClass('d-none');
-        }else if(a == 'pilihan'){
+        }else if(zx == 'pilihan'){
             $('#pilihanJawaban').removeClass('d-none');
             $('#esayJawaban').addClass('d-none');
-            html = '<div class="form-group">'
+            html += '<div class="form-group">'
                     +'<label>Jenis Jawaban Pilihan</label>'
                     +'<select class="custom-select" id="pilihanKriteriaJawaban" name="pilihanKriteriaJawaban">'
-                    +'<option>Pilih</option>'
-                    +'<option value="single">Jawaban Pilihan Single</option>'
-                    +'<option value="multiple">Jawaban Pilihan Multiple</option>'
-                    +'</select>'
-                    +'</div>'
+                    +'<option>Pilih</option>';
+                    if(b = 'kriteria_pilih_single'){
+                        html +='<option value="single" selected>Jawaban Pilihan Single</option>'
+                                +'<option value="multiple" >Jawaban Pilihan Multiple</option>';
+                    }else if(b = 'kriteria_pilih_multiple'){
+                        html +='<option value="multiple" >Jawaban Pilihan Multiple</option>'
+                                +'<option value="multiple" selected>Jawaban Pilihan Multiple</option>';
+                    }
+            html +='</select>'
+                    +'</div>';
             $('#pilihanJawaban').html(html);
         }
     });
+
+   
+    // $('#jawabanKategori').on('change', function(){
+    //     var html = '';
+    //     var a = $(this).val();
+    //     if(a == 'esay'){
+    //         $('#esayJawaban').removeClass('d-none');
+    //         $('#pilihanJawaban').addClass('d-none');
+    //         $('#pilihanSingle').addClass('d-none');
+    //         $('#pilihanMultiple').addClass('d-none');
+    //     }else if(a == 'pilihan'){
+    //         $('#pilihanJawaban').removeClass('d-none');
+    //         $('#esayJawaban').addClass('d-none');
+    //         html = '<div class="form-group">'
+    //                 +'<label>Jenis Jawaban Pilihan</label>'
+    //                 +'<select class="custom-select" id="pilihanKriteriaJawaban" name="pilihanKriteriaJawaban">'
+    //                 +'<option>Pilih</option>'
+    //                 +'<option value="single">Jawaban Pilihan Single</option>'
+    //                 +'<option value="multiple">Jawaban Pilihan Multiple</option>'
+    //                 +'</select>'
+    //                 +'</div>'
+    //         $('#pilihanJawaban').html(html);
+    //     }
+    // });
 
     $(document).on('change', '#pilihanKriteriaJawaban',function(){
         var html = '';

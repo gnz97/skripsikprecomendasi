@@ -18,6 +18,7 @@
   <link rel="stylesheet" href="<?= base_url()?>assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="<?= base_url()?>assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <link rel="stylesheet" href="<?= base_url()?>assets/plugins/datepicker/css/bootstrap-datepicker.min.css">
+  <link rel="stylesheet" href="<?= base_url()?>assets/plugins/sweetalert2/sweetalert2.css">
   <!-- <script src="<?= base_url()?>assets/plugins/datepicker/js/bootstrap-datepicker.min"></script> -->
   <!-- /Menu Kategori -->
 

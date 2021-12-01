@@ -62,6 +62,7 @@
                                             <option>pilih</option>
                                             <option value="esay">Jawaban Esay</option>
                                             <option value="pilihan">Jawaban Pilihan</option>
+                                            <option value="alamat">Jawaban Alamat</option>
                                         </select>
                                     </div>
                                     

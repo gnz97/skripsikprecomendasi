@@ -10,6 +10,14 @@ class Alumni_m extends CI_Model{
         return $query;
     }
 
+    public function getCount(){
+        $this->db->select('count(alumniID) as rowAlumni');
+        $this->db->from('tb_alumni');
+        // $this->db->order_by('alumniID', 'ASC');
+        $query = $this->db->get();
+        return $query;
+    }
+
     public function getById($id){
         $this->db->select('*');
         $this->db->from('tb_alumni');
@@ -42,7 +50,8 @@ class Alumni_m extends CI_Model{
             'alumniNik' => $post['alumniNik'],
             'alumniNpwp' => $post['alumniNpwp'],
             'alumniNama' => $post['alumniNama'],
-            'alumniJurusan' => $post['alumniJurusan'],
+            'alumniProdi' => $post['alumniProdi'],
+            'alumniFakultas' => $post['alumniFakultas'],
             'alumniTahunLulus	' => $post['alumniThnLulus'],
             'alumniNoWA' => $post['alumniNoWa'],
             'alumniEmail' => $post['alumniEmail'],
@@ -62,7 +71,8 @@ class Alumni_m extends CI_Model{
             'alumniNik' => $post['alumniNik'],
             'alumniNpwp' => $post['alumniNpwp'],
             'alumniNama' => $post['alumniNama'],
-            'alumniJurusan' => $post['alumniJurusan'],
+            'alumniProdi' => $post['alumniProdi'],
+            'alumniFakultas' => $post['alumniFakultas'],
             'alumniTahunLulus	' => $post['alumniThnLulus'],
             'alumniNoWA' => $post['alumniNoWa'],
             'alumniEmail' => $post['alumniEmail'],
@@ -77,6 +87,6 @@ class Alumni_m extends CI_Model{
 
     public function deleteAlumni($id){
         $this->db->where('alumniID', $id);
-        $this->db->delete('tb_alternatif');
+        $this->db->delete('tb_alumni');
     }
 }

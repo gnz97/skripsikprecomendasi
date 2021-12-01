@@ -40,7 +40,6 @@ class Pertanyaan extends CI_Controller{
                 $post['pertanyaanID'] = $dataID;
                 $dcount = count($post['JawabanPilihanSingle']);
                
-
                 if($post['lanjutanJawaban'] == 'aktif'){
                     
                     for($i=0; $i<count($post['JawabanPilihanSingle']); $i++){
@@ -79,17 +78,125 @@ class Pertanyaan extends CI_Controller{
                 }
             }
            
+        }else if($post['jawabanKategori'] == 'alamat'){
+            $post['jawabanKriteria'] = 'kriteria_alamat';
+            $dataID = $this->Pertanyaan_m->addPertanyaan($post);
         }
 
         echo json_encode($post);
     }
 
-    public function viewEditPertanyaan(){
-        // $data['dataPertanyaan'] = $this->Pertanyaan_m->getById($id)->row();
-        // $data['dataKarir'] = $this->Karir_m->getAll()->result();
-        // $data['dataJoinKarir'] = $this->Pertanyaan_m->joinKarir()->result();
+    public function viewEditPertanyaan($id){
+        $data['rowPertanyaan'] = $this->Pertanyaan_m->getById($id)->row();
+        $data['dataPertanyaanSinggle'] = $this->Pertanyaan_m->getPertanyaanPilihanSingleID($id)->result();
+        $data['dataPertanyaanMultiple'] = $this->Pertanyaan_m->getPertanyaanPilihanMultipleByID($id)->result();
+        if($data['dataPertanyaanMultiple'] != null){
+
+        
+            foreach($data['dataPertanyaanMultiple'] as $rowPertanyaanMultiple){
+                $jawabanPMID[] = $rowPertanyaanMultiple->jawabanPMID;
+            }
+
+            $data['dataPertanyaanMultipleDetail'] = $this->Pertanyaan_m->getPertanyaanPilihanMultipleDetailByID($jawabanPMID)->result();
+        }
+       
+        $data['dataPertanyaanKategori'] = $this->Pertanyaan_m->getPKategoriAll()->result();
         // echo json_encode($data);
-        $this->load->view('admin/pertanyaan/pertanyaan_edit');
+        $this->load->view('admin/pertanyaan/pertanyaan_edit', $data);
+    }
+
+    public function deletePertanyaan(){
+        $id = $this->input->post('id');
+        $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+        if($rowPertanyaan->pertanyaanKategoriJawaban == 'esay'){
+            // $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+            $this->Pertanyaan_m->deletePertanyaan($id);
+            $error = $this->db->error();
+            if($error['code'] != 0){
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }
+        }else if($rowPertanyaan->pertanyaanKategoriJawaban == 'pilihan'){
+            if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+                $data = $this->Pertanyaan_m->deletePertanyaanPilihanSingle($id);
+                $error = $this->db->error();
+                if($error['code'] != 0){
+                    $response = array(
+                        'status' 	=> 'gagal',
+                    );
+                }else{
+                    $this->Pertanyaan_m->deletePertanyaan($id);
+                    $error = $this->db->error();
+                    if($error['code'] != 0){
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }else{
+                        $response = array(
+                            'status' 	=> 'success',
+                        );
+                    }
+                }
+                
+                
+            }else if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){
+                $dataPM = $this->Pertanyaan_m->getPertanyaanPilihanMultipleByID($id)->result();
+                foreach($dataPM as $rowPM){
+                    $rowPilihMID[] = $rowPM->jawabanPMID;
+                }
+                
+                $this->Pertanyaan_m->deletePertanyaanPilihanMultipleDetail($rowPilihMID);
+                $error = $this->db->error();
+                if($error['code'] != 0){
+                    $response = array(
+                        'status' 	=> 'gagal',
+                    );
+                }else{  
+                    $this->Pertanyaan_m->deletePertanyaanPilihanMultiple($id);
+                    $error = $this->db->error();
+                    if($error['code'] != 0){
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }else{
+                        $this->Pertanyaan_m->deletePertanyaan($id);
+                        $error = $this->db->error();
+                        if($error['code'] != 0){
+                            $response = array(
+                                'status' 	=> 'gagal',
+                            );
+                        }else{
+                            $response = array(
+                                'status' 	=> 'success',
+                            );
+                        }
+                    }
+                } 
+            }
+           
+        } else if($rowPertanyaan->pertanyaanKategoriJawaban == 'alamat'){
+            // $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+            $this->Pertanyaan_m->deletePertanyaan($id);
+            $error = $this->db->error();
+            if($error['code'] != 0){
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }
+        }
+       
+
+       
+        echo json_encode($response);
     }
 
 

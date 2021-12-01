@@ -9,7 +9,15 @@ class Petugas_m extends CI_Model{
         return $query;
     }
 
+    public function getCount(){
+        $this->db->select('count(petugasID) as rowPetugas');
+        $this->db->from('tb_petugas');
+        // $this->db->order_by('alumniID', 'ASC');
+        $query = $this->db->get();
+        return $query;
+    }
 
+    
     public function getById($id){
         $this->db->select('*');
         $this->db->from('tb_petugas');

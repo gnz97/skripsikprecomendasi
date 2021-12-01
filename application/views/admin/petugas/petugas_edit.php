@@ -101,14 +101,14 @@
                     if(data.status == 'success'){
                         console.log("sukses");
                     
-                        // Swal.fire({
-                        //     icon: 'success',
-                        //     title: 'Berhasil',
-                        //     text: 'Data Berhasil Di Tambahkan!',
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data Berhasil Di Update!',
                         
-                        // }).then(function() {
-                        //     window.location.assign("<?php echo base_url();?>admin/ChatKategori");
-                        // });
+                        }).then(function() {
+                            window.location.assign("<?php echo base_url();?>admin/Petugas/");
+                        });
                     
                     }else{
                         $('.gejalaCode_error').html(data.gejalaCode);

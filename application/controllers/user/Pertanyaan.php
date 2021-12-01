@@ -26,10 +26,13 @@ class Pertanyaan extends CI_Controller {
 			
 			$data['dataJawabanPilihSingle'] =$this->Jawaban_m->getJawabanPilihSingleAll($pertanyaanID)->result();
 			$data['dataJawabanPilihMultiple'] =$this->Jawaban_m->getJawabanPilihMultipleAll($pertanyaanID)->result();
-			foreach($data['dataJawabanPilihMultiple'] as $rowJawabanPilihMultiple){
-				$multipleID[] = $rowJawabanPilihMultiple->jawabanPMID;
+			if($data['dataJawabanPilihMultiple'] != null){
+				foreach($data['dataJawabanPilihMultiple'] as $rowJawabanPilihMultiple){
+					$multipleID[] = $rowJawabanPilihMultiple->jawabanPMID;
+				}
+				$data['dataJawabanPilihMultipleDetail'] =$this->Jawaban_m->getJawabanPilihMultipleDetailAll($multipleID)->result();
 			}
-			$data['dataJawabanPilihMultipleDetail'] =$this->Jawaban_m->getJawabanPilihMultipleDetailAll($multipleID)->result();
+			
 		}
 		
 		// echo json_encode($data);
@@ -262,12 +265,47 @@ class Pertanyaan extends CI_Controller {
 							}
 						}
 					}
+
+					if($rowPertanyaanAlumni->pertanyaanKriteriaJawaban == 'kriteria_alamat'){
+						if($post['pilihanAlamatKabupaten'] != null){
+							$parseJAlumni = array(
+								'alumniID' => $post['alumniID'],
+								'pertanyaanID' => $rowPertanyaanAlumni->pertanyaanID,
+								'jawabanAlumniStatus' => 'sukses'
+							);
+
+							$dataJawabanCheck = $this->JawabanAlumni_m->getJawabanAlumniCheck($parseJAlumni)->row();
+							if($dataJawabanCheck != null){
+								$parseJAlumni['jawabanAlumniID'] =  $dataJawabanCheck->jawabanAlumniID;
+								$id = $parseJAlumni['jawabanAlumniID'];
+								$this->JawabanAlumni_m->editJawabanAlumni($parseJAlumni);
+							}else{
+								$id = $this->JawabanAlumni_m->addJawabanAlumni($parseJAlumni);
+							}
+							
+							$parse = array(
+								'jawabanAlumniID' => $id,
+								'pilihanAlamatProvinsi' => $post['pilihanAlamatProvinsi'],
+								'pilihanAlamatKabupaten' => $post['pilihanAlamatKabupaten']
+							);
+							$dataAlumniAlamat = $this->JawabanAlumni_m->getJawabanAlumniAlamatCheck($parse)->row();
+							if($dataAlumniAlamat != null){
+								$parse['jawabanAlumniAlamatID'] =  $dataAlumniAlamat->jawabanAluminAlamatID;
+								$this->JawabanAlumni_m->editJawabanAlumniAlamat($parse);
+							}else{
+								$this->JawabanAlumni_m->addJawabanAlumniAlamat($parse);
+							}
+							
+						}
+					}
+					
+					
 				}
 			}
 
 		
 			$datax = array(
-				'status' => 'sukses',
+				'status' => 'success',
 				
 				
 			);
@@ -275,7 +313,7 @@ class Pertanyaan extends CI_Controller {
 		}
 		// echo json_encode($postx);
 		
-		echo json_encode($rowJawabanPilihSinglex);
+		echo json_encode($datax);
 		
 	}
 }

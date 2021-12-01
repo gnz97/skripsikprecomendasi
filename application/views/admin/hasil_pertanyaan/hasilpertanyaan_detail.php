@@ -44,7 +44,7 @@
                             <b>Angkatan Lulus</b> <a class="float-right"><?=$dataAlumni->alumniTahunLulus?></a>
                         </li>
                         <li class="list-group-item">
-                            <b>Jurusan</b> <a class="float-right"><?=$dataAlumni->alumniJurusan?></a>
+                            <b>Jurusan</b> <a class="float-right"><?=$dataAlumni->alumniProdi?></a>
                         </li>
                         </ul>
 
@@ -186,7 +186,47 @@
                                     </div>
 
                                             <?php } ?>
+                                      <?php }else if($rowJawabanAlumni->pertanyaanKategoriJawaban == 'alamat'){ ?>
+                                        <?php foreach($dataJawabanAlumniAlamat as $rowJawabanAlumniAlamat){
+                                                    if($rowJawabanAlumniAlamat->jawabanAlumniAlamat_jawabanAlumniID == $rowJawabanAlumni->jawabanAlumniID){?>
+                                                
+                                                    <div class="card">
+                                                        <!-- <div class="card-header p-2">
+                                                            <ul class="nav nav-pills">
+                                                            <li class="nav-item">DATA PERTANYAAN</li>
+                                                                
+                                                            </ul>
+                                                        </div> -->
+                                                        <!-- /.card-header -->
+                                                        <div class="card-body">
+                                                                <div class="tab-content">
+                                                                    <div class="tab-pane active" id="activity">
+                                                                        <!-- Post -->
+                                                                        <div class="post">
+                                                                            <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
+                                                                            <p>Provinsi</p>
+                                                                            <input class="form-control form-control-sm" id="provinsix" type="hidden" value="<?=$rowJawabanAlumniAlamat->jawabanAluminAlamatProvinsi?>" readonly placeholder="Jawaban">
+                                                                            <input class="form-control form-control-sm" id="provinsi" type="text"  readonly placeholder="Jawaban">
+                                                                            <p>Kabupaten</p>
+                                                                            <input class="form-control form-control-sm" id="kabupatenx" type="hidden" value="<?=$rowJawabanAlumniAlamat->jawabanAluminAlamatKabupaten?>" readonly placeholder="Jawaban">
+                                                                            <input class="form-control form-control-sm" id="kabupaten" type="text"  readonly placeholder="Jawaban">
+                                                                        </div>
+
+
+                                                                        </div>
+                                                                    </div>
+                                                                    <!-- /.tab-content -->
+                                                                </div><!-- /.card-body -->
+                                                                
+                                                            </div>
+                                                <?php }} ?>
                                       <?php } ?>
+
+
+
+
+
+
                                 <?php } ?>
                                     
                                     
@@ -209,5 +249,66 @@
     <!-- JS -->
     <?php $this->load->view('admin/_partials/js.php');?>
     <!-- /Js -->
+
+    <script>
+
+dataIndodaxAPI();
+    function dataIndodaxAPI(){
+        var provinsizx = $('#provinsix').val();
+        var kabupatenzx = $('#kabupatenx').val();
+        $.ajax({
+            type: 'GET',
+            url: 'https://dev.farizdotid.com/api/daerahindonesia/provinsi',
+            dataType: 'json',
+            success: function (data) {
+            //     html = '';
+            //    html +='<div class="form-group">'
+            //         +'<label>Provinsi</label>'
+            //         +'<select class="custom-select" id="pilihanAlamatProvinsi" name="pilihanAlamatProvinsi">'
+            //         +'<option id="">pilih</option>';
+               $.each(data, function(index, element) { 
+                    $.each(element, function(index1, element1) { 
+                        if(provinsizx == element1.id){
+                        // html += '<option id="'+element1.id+'" value="'+element1.id+'">'+element1.nama+'</option>';
+                        $('#provinsi').val(element1.nama);
+                        }
+                    });
+                }); 
+                // html +='</select>'
+                //     +'</div>';
+                 
+
+            }
+        });
+
+        $.ajax({
+            type: 'GET',
+            url: 'https://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi='+provinsizx,
+            dataType: 'json',
+            success: function (data) {
+               
+               $.each(data, function(index, element) { 
+                    $.each(element, function(index1, element1) { 
+                        if(kabupatenzx == element1.id){
+                        // html += '<option id="'+element1.id+'" value="'+element1.id+'">'+element1.nama+'</option>';
+                        $('#kabupaten').val(element1.nama);
+                        // console.log();
+                        }
+                    });
+                }); 
+               
+
+            }
+        });
+
+    }
+
+
+   
+
+    
+///////////////////////////////////////////
+  
+    </script>
 </body>
 </html>
