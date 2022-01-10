@@ -71,6 +71,8 @@
                                     <div id="esayJawaban"></div>
                                     
                                     <div id="pilihanSingle"></div>
+                                    <!-- <div id="hasil"></div> -->
+                                    <input type="text" hidden id="hasil">
                                     <!-- <div id="pilihanSingle"></div> -->
                                     
                                     <div id="pilihanMultiple"></div>
@@ -139,29 +141,37 @@ $(document).ready(function(){
         var b = $(this).val();
         console.log(b);
         if(b == 'single'){
+            // var hasil = $('#hasil').val();
+           
+            var hasil2 = 1;
+            $('#hasil').val(hasil2);
+            // console.log(hasil1);
             $('#pilihanSingle').removeClass('d-none');
             $('#pilihanMultiple').addClass('d-none');
            console.log("single");
            html = '<div class="form-group">'
                     +'<label for="exampleInputEmail1">Jawaban</label>'
-                    +'<input type="text" name="JawabanPilihanSingle[]" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="text" name="JawabanPilihanSingle['+hasil2+']" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="radio" name="lanjutanJawaban['+hasil2+']" value="aktif">'
+                    +'<label for="vehicle1">Lanjut Aktif</label>'
+                    +'<br>'
+                    +'<input type="radio" name="lanjutanJawaban['+hasil2+']" value="tidak_aktif">'
+                    +'<label for="vehicle1">Lanjut Tidak Aktif</label>'
                     +'</div>'
                     +'<div id="tambahJawabanSinglex"></div>'
                     +'<div class="form-group">'
-                    // +'<input type="submit" id="tambahJawabanSingle" class="btn btn-primary" value="Tambah Jawaban">'
                     +'<button  id="tambahJawabanSingle" class="btn btn-primary" >Tambah Jawaban</button>'
                     +'</div>'
                     
-                   
                     +'<div class="form-group">'
-                    +'<label>Pilihan Lanjutkan</label>'
-                    +'<select class="custom-select" id="lanjutanJawaban" name="lanjutanJawaban">'
+                    +'<label>Pilihan Jawaban Lebih dari satu</label>'
+                    +'<select class="custom-select" id="singleJawabanMultiple" name="singleJawabanMultiple">'
                     +'<option>Pilih</option>'
                     +'<option value="aktif">Aktif</option>'
                     +'<option value="tidak_aktif">Tidak Aktif</option>'
                     +'</select>'
-                    +'</div>'
-                    +'<div id="lanjutanJawabanx"></div>';
+                    +'</div>';
+                    // +'<div id="lanjutanJawabanx"></div>';
                     
                     $('#pilihanSingle').html(html);
 
@@ -205,30 +215,27 @@ $(document).ready(function(){
 
     $(document).on('click','#tambahJawabanSingle', function(e){
         e.preventDefault();
+        var hasil = $('#hasil').val();
+        var hasil1 = Number(hasil);
+        var z = hasil1 + 1;
+        $('#hasil').val(z);
+       
         var html = '';
         html += '<div class="form-group">'
                     +'<label for="exampleInputEmail1">Jawaban</label>'
-                    +'<input type="text" name="JawabanPilihanSingle[]" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="text" name="JawabanPilihanSingle['+z+']" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="radio" name="lanjutanJawaban['+z+']" value="aktif">'
+                    +'<label for="vehicle1">Lanjut Aktif</label>'
+                    +'<br>'
+                    +'<input type="radio" name="lanjutanJawaban['+z+']" value="tidak_aktif">'
+                    +'<label for="vehicle1">Lanjut Tidak Aktif</label>'
                     +'</div>';
             $('#tambahJawabanSinglex').append(html);
         console.log("hello");
     });
 
-    $(document).on('click', '#lanjutanJawaban', function(){
-        var xx = $(this).val();
-        var html = '';
-        if(xx == 'aktif'){
-            $('#lanjutanJawabanx').removeClass('d-none');
-            html = '<div class="form-group">'
-                    +'<label for="exampleInputEmail1">Jawaban Lanjutkan</label>'
-                    +'<input type="text" class="form-control" name="JawabanPilihanSingle[]" id="exampleInputEmail1" placeholder="Masukan Pertanyaan">'
-                    +'</div>';
-            $('#lanjutanJawabanx').html(html);
-        }else{
-          
-            $('#lanjutanJawabanx').addClass('d-none');
-        }
-    }); 
+ 
+
 
 
 
@@ -274,16 +281,16 @@ $(document).ready(function(){
                 success: function(data){
                     console.log(data);
                     if(data.status == 'success'){
-                        console.log("sukses");
+                        // console.log("sukses");
                     
-                        // Swal.fire({
-                        //     icon: 'success',
-                        //     title: 'Berhasil',
-                        //     text: 'Data Berhasil Di Tambahkan!',
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data Berhasil Di Tambahkan!',
                         
-                        // }).then(function() {
-                        //     window.location.assign("<?php echo base_url();?>admin/ChatKategori");
-                        // });
+                        }).then(function() {
+                            window.location.assign("<?php echo base_url();?>admin/Pertanyaan");
+                        });
                     
                     }else{
                         $('.gejalaCode_error').html(data.gejalaCode);

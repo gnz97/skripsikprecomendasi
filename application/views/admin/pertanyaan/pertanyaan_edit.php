@@ -37,7 +37,7 @@
                         <!-- form start -->
                             <form id="formAdd" >
                                 
-                                <input type="text" name="pertanyaanID" class="form-control" id="pertanyaanDeskripsi" value="<?=$rowPertanyaan->pertanyaanID?>">
+                                <input type="hidden" name="pertanyaanID" class="form-control" id="pertanyaanDeskripsi" value="<?=$rowPertanyaan->pertanyaanID?>">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label>Pertanyaan Kategori</label>
@@ -65,6 +65,7 @@
                                             <option>pilih</option>
                                             <option value="esay" <?=$rowPertanyaan->pertanyaanKategoriJawaban == 'esay' ? 'selected' : ''?> jkategori="esay">Jawaban Esay</option>
                                             <option value="pilihan" <?=$rowPertanyaan->pertanyaanKategoriJawaban == 'pilihan' ? 'selected' : ''?> jkategori="pilihan">Jawaban pilihan</option>
+                                            <option value="alamat"  <?=$rowPertanyaan->pertanyaanKategoriJawaban == 'alamat' ? 'selected' : ''?> jkategori="alamat">Jawaban Alamat</option>
                                         </select>
                                     </div>
 
@@ -75,7 +76,7 @@
                                     
                                     <div id="pilihanSingle"></div>
                                     <!-- <div id="pilihanSingle"></div> -->
-                                    
+                                    <input type="text" hidden id="hasil">
                                     <div id="pilihanMultiple"></div>
                                     <!-- <div id="pilihanEsay"></div> -->
                                    
@@ -119,90 +120,65 @@
     <script>
 $(document).ready(function(){
 
-    $(document).ready(function(){
+    $('#jawabanKategori').on('change', function(){
         var html = '';
         var a = $(this).val();
-        var b = $('#kjawaban').html();
-        var zx = $('#jawabanKategori').find('option:selected').attr('jkategori');
-        console.log(zx);
-        console.log(b);
-        if(zx == 'esay'){
+        if(a == 'esay'){
             $('#esayJawaban').removeClass('d-none');
             $('#pilihanJawaban').addClass('d-none');
             $('#pilihanSingle').addClass('d-none');
             $('#pilihanMultiple').addClass('d-none');
-        }else if(zx == 'pilihan'){
+        }else if(a == 'pilihan'){
             $('#pilihanJawaban').removeClass('d-none');
             $('#esayJawaban').addClass('d-none');
-            html += '<div class="form-group">'
+            html = '<div class="form-group">'
                     +'<label>Jenis Jawaban Pilihan</label>'
                     +'<select class="custom-select" id="pilihanKriteriaJawaban" name="pilihanKriteriaJawaban">'
-                    +'<option>Pilih</option>';
-                    if(b = 'kriteria_pilih_single'){
-                        html +='<option value="single" selected>Jawaban Pilihan Single</option>'
-                                +'<option value="multiple" >Jawaban Pilihan Multiple</option>';
-                    }else if(b = 'kriteria_pilih_multiple'){
-                        html +='<option value="multiple" >Jawaban Pilihan Multiple</option>'
-                                +'<option value="multiple" selected>Jawaban Pilihan Multiple</option>';
-                    }
-            html +='</select>'
-                    +'</div>';
+                    +'<option>Pilih</option>'
+                    +'<option value="single">Jawaban Pilihan Single</option>'
+                    +'<option value="multiple">Jawaban Pilihan Multiple</option>'
+                    +'</select>'
+                    +'</div>'
             $('#pilihanJawaban').html(html);
         }
     });
-
-   
-    // $('#jawabanKategori').on('change', function(){
-    //     var html = '';
-    //     var a = $(this).val();
-    //     if(a == 'esay'){
-    //         $('#esayJawaban').removeClass('d-none');
-    //         $('#pilihanJawaban').addClass('d-none');
-    //         $('#pilihanSingle').addClass('d-none');
-    //         $('#pilihanMultiple').addClass('d-none');
-    //     }else if(a == 'pilihan'){
-    //         $('#pilihanJawaban').removeClass('d-none');
-    //         $('#esayJawaban').addClass('d-none');
-    //         html = '<div class="form-group">'
-    //                 +'<label>Jenis Jawaban Pilihan</label>'
-    //                 +'<select class="custom-select" id="pilihanKriteriaJawaban" name="pilihanKriteriaJawaban">'
-    //                 +'<option>Pilih</option>'
-    //                 +'<option value="single">Jawaban Pilihan Single</option>'
-    //                 +'<option value="multiple">Jawaban Pilihan Multiple</option>'
-    //                 +'</select>'
-    //                 +'</div>'
-    //         $('#pilihanJawaban').html(html);
-    //     }
-    // });
 
     $(document).on('change', '#pilihanKriteriaJawaban',function(){
         var html = '';
         var b = $(this).val();
         console.log(b);
         if(b == 'single'){
+            // var hasil = $('#hasil').val();
+           
+            var hasil2 = 1;
+            $('#hasil').val(hasil2);
+            // console.log(hasil1);
             $('#pilihanSingle').removeClass('d-none');
             $('#pilihanMultiple').addClass('d-none');
            console.log("single");
            html = '<div class="form-group">'
                     +'<label for="exampleInputEmail1">Jawaban</label>'
-                    +'<input type="text" name="JawabanPilihanSingle[]" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="text" name="JawabanPilihanSingle['+hasil2+']" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="radio" name="lanjutanJawaban['+hasil2+']" value="aktif">'
+                    +'<label for="vehicle1">Lanjut Aktif</label>'
+                    +'<br>'
+                    +'<input type="radio" name="lanjutanJawaban['+hasil2+']" value="tidak_aktif">'
+                    +'<label for="vehicle1">Lanjut Tidak Aktif</label>'
                     +'</div>'
                     +'<div id="tambahJawabanSinglex"></div>'
                     +'<div class="form-group">'
-                    // +'<input type="submit" id="tambahJawabanSingle" class="btn btn-primary" value="Tambah Jawaban">'
                     +'<button  id="tambahJawabanSingle" class="btn btn-primary" >Tambah Jawaban</button>'
                     +'</div>'
                     
-                   
                     +'<div class="form-group">'
-                    +'<label>Pilihan Lanjutkan</label>'
-                    +'<select class="custom-select" id="lanjutanJawaban" name="lanjutanJawaban">'
+                    +'<label>Pilihan Jawaban Lebih dari satu</label>'
+                    +'<select class="custom-select" id="singleJawabanMultiple" name="singleJawabanMultiple">'
                     +'<option>Pilih</option>'
                     +'<option value="aktif">Aktif</option>'
                     +'<option value="tidak_aktif">Tidak Aktif</option>'
                     +'</select>'
-                    +'</div>'
-                    +'<div id="lanjutanJawabanx"></div>';
+                    +'</div>';
+                    // +'<div id="lanjutanJawabanx"></div>';
                     
                     $('#pilihanSingle').html(html);
 
@@ -246,30 +222,27 @@ $(document).ready(function(){
 
     $(document).on('click','#tambahJawabanSingle', function(e){
         e.preventDefault();
+        var hasil = $('#hasil').val();
+        var hasil1 = Number(hasil);
+        var z = hasil1 + 1;
+        $('#hasil').val(z);
+       
         var html = '';
         html += '<div class="form-group">'
                     +'<label for="exampleInputEmail1">Jawaban</label>'
-                    +'<input type="text" name="JawabanPilihanSingle[]" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="text" name="JawabanPilihanSingle['+z+']" class="form-control" id="exampleInputEmail1" placeholder="Masukan Jawaban">'
+                    +'<input type="radio" name="lanjutanJawaban['+z+']" value="aktif">'
+                    +'<label for="vehicle1">Lanjut Aktif</label>'
+                    +'<br>'
+                    +'<input type="radio" name="lanjutanJawaban['+z+']" value="tidak_aktif">'
+                    +'<label for="vehicle1">Lanjut Tidak Aktif</label>'
                     +'</div>';
             $('#tambahJawabanSinglex').append(html);
         console.log("hello");
     });
 
-    $(document).on('click', '#lanjutanJawaban', function(){
-        var xx = $(this).val();
-        var html = '';
-        if(xx == 'aktif'){
-            $('#lanjutanJawabanx').removeClass('d-none');
-            html = '<div class="form-group">'
-                    +'<label for="exampleInputEmail1">Jawaban Lanjutkan</label>'
-                    +'<input type="text" class="form-control" name="JawabanPilihanSingle[]" id="exampleInputEmail1" placeholder="Masukan Pertanyaan">'
-                    +'</div>';
-            $('#lanjutanJawabanx').html(html);
-        }else{
-          
-            $('#lanjutanJawabanx').addClass('d-none');
-        }
-    }); 
+ 
+
 
 
 
@@ -303,13 +276,14 @@ $(document).ready(function(){
     });
 
 
+
     
 
 
     $('#add').on('click', function(){
             $.ajax({
                 type : "POST",
-                url  :"<?php echo base_url('admin/Pertanyaan/addPertanyaan')?>",
+                url  :"<?php echo base_url('admin/Pertanyaan/editPertanyaan')?>",
                 dataType : "JSON",
                 data : $('#formAdd').serialize(),
                 success: function(data){
@@ -317,14 +291,14 @@ $(document).ready(function(){
                     if(data.status == 'success'){
                         console.log("sukses");
                     
-                        // Swal.fire({
-                        //     icon: 'success',
-                        //     title: 'Berhasil',
-                        //     text: 'Data Berhasil Di Tambahkan!',
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data Berhasil Di Tambahkan!',
                         
-                        // }).then(function() {
-                        //     window.location.assign("<?php echo base_url();?>admin/ChatKategori");
-                        // });
+                        }).then(function() {
+                            window.location.assign("<?php echo base_url();?>admin/Pertanyaan");
+                        });
                     
                     }else{
                         $('.gejalaCode_error').html(data.gejalaCode);

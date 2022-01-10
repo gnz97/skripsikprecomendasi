@@ -30,6 +30,10 @@ class Alumni extends CI_Controller{
             $response = array(
                 'status' 	=> 'success',
             );
+        }else{
+            $response = array(
+                'status' 	=> 'gagal',
+            );
         }
         echo json_encode($response); 
     }

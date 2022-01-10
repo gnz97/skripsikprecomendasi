@@ -40,6 +40,7 @@ class Pertanyaan extends CI_Controller {
 	}
 
 	public function addPertanyaanAlumni(){
+		$zxxx = array();
 		$postCheck = $this->input->post(null, TRUE);
 		$postKategoriID = $this->input->post('pertanyaanKategoriID');
 		$dataPertanyaan['dataPertanyaan'] =$this->Pertanyaan_m->getPKategoriAllByID($postKategoriID)->result();
@@ -49,16 +50,36 @@ class Pertanyaan extends CI_Controller {
 					$pertanyaanID = $rowPertanyaan->pertanyaanID;
 					$this->form_validation->set_rules('essay'.$pertanyaanID, 'essay'.$pertanyaanID, 'required');
 				}
-				if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+				if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif'){
+					$pertanyaanID = $rowPertanyaan->pertanyaanID;
+					$psID = $this->Pertanyaan_m->getPertanyaanPilihanSingleID($pertanyaanID)->row();
+					if(isset($_POST['pilihSingle'.$pertanyaanID.$psID->jawabanPSID])){
+						$this->form_validation->set_rules('pilihSingle'.$pertanyaanID.$psID->jawabanPSID, 'pilihSingle'.$pertanyaanID.$psID->jawabanPSID, 'required');
+					}
+					$dataJawabanPilihSingle['dataJawabanPilihSingle'] =$this->Jawaban_m->getJawabanPilihSingleAll($pertanyaanID)->result();
+					foreach($dataJawabanPilihSingle['dataJawabanPilihSingle'] as $rowJawabanPilihSingle){
+						$datazxx = $rowJawabanPilihSingle->jawabanPSID;
+						if(isset($_POST['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID])){
+							// $datazxx = 'aktif';
+							if($postCheck['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID] != true){
+								$this->form_validation->set_rules('lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID, 'lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID, 'required');
+							}else{
+								$this->form_validation->set_rules('lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID, 'lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID, 'required');
+							}
+						}
+					}	
+				}
+
+				if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){
 					$pertanyaanID = $rowPertanyaan->pertanyaanID;
 					$this->form_validation->set_rules('pilihSingle'.$pertanyaanID, 'pilihSingle'.$pertanyaanID, 'required');
 					$dataJawabanPilihSingle['dataJawabanPilihSingle'] =$this->Jawaban_m->getJawabanPilihSingleAll($pertanyaanID)->result();
 					foreach($dataJawabanPilihSingle['dataJawabanPilihSingle'] as $rowJawabanPilihSingle){
-						if(isset($_POST['lanjut'.$rowJawabanPilihSingle->jawabanPSID])){
-							if($postCheck['lanjut'.$rowJawabanPilihSingle->jawabanPSID] != true){
-								$this->form_validation->set_rules('lanjut'.$rowJawabanPilihSingle->jawabanPSID, 'lanjut'.$rowJawabanPilihSingle->jawabanPSID, 'required');
+						if(isset($_POST['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID])){
+							if($postCheck['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID] != true){
+								$this->form_validation->set_rules('lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID, 'lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID, 'required');
 							}else{
-								$this->form_validation->set_rules('lanjut'.$rowJawabanPilihSingle->jawabanPSID, 'lanjut'.$rowJawabanPilihSingle->jawabanPSID, 'required');
+								$this->form_validation->set_rules('lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID, 'lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID, 'required');
 							}
 						}
 					}	
@@ -79,8 +100,10 @@ class Pertanyaan extends CI_Controller {
         if($this->form_validation->run() == FALSE){
 			$data['status'] = ['status'=>'gagal'];
 			$dataEssay = array();
-			$datapilihSingle = array();
-			$dataPilihanLanjut = array();
+			$datapilihSingle_m_aktif = array();
+			$datapilihSingle_m_tidak_aktif = array();
+			$dataPilihanLanjutMAktif = array();
+			$dataPilihanLanjutTMAktif = array();
 			$dataPertanyaan['dataPertanyaan'] = $this->Pertanyaan_m->getPKategoriAllByID($postKategoriID)->result();
 			if($dataPertanyaan['dataPertanyaan'] != null){
 				foreach($dataPertanyaan['dataPertanyaan'] as $rowPertanyaan){
@@ -88,21 +111,46 @@ class Pertanyaan extends CI_Controller {
 						$pertanyaanID = $rowPertanyaan->pertanyaanID;
 						$dataEssay[] = ['essay'.$pertanyaanID => form_error('essay'.$pertanyaanID)];		
 					}
-					if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+					if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif'){
 						$pertanyaanID = $rowPertanyaan->pertanyaanID;
-						$datapilihSingle[] = ['pilihSingle'.$pertanyaanID => form_error('pilihSingle'.$pertanyaanID)];
+						$psID = $this->Pertanyaan_m->getPertanyaanPilihanSingleID($pertanyaanID)->row();
+						$datapilihSingle_m_aktif[] = ['pilihSingle'.$pertanyaanID.$psID->jawabanPSID => form_error('pilihSingle'.$pertanyaanID.$psID->jawabanPSID)];
 
 						$dataJawabanPilihSingle['dataJawabanPilihSingle'] = $this->Jawaban_m->getJawabanPilihSingleAll($pertanyaanID)->result();
 						foreach($dataJawabanPilihSingle['dataJawabanPilihSingle'] as $rowJawabanPilihSingle){
-							if(isset($_POST['lanjut'.$rowJawabanPilihSingle->jawabanPSID])){
-								if($postCheck['lanjut'.$rowJawabanPilihSingle->jawabanPSID] != true){
-									$dataPilihanLanjut[] = ['lanjut'.$rowJawabanPilihSingle->jawabanPSID => form_error('lanjut'.$rowJawabanPilihSingle->jawabanPSID)];
+							if(isset($_POST['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID])){
+								$zxxx[] = $rowJawabanPilihSingle->jawabanPSID;
+								if($postCheck['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID] != true){
+									$zxx1 = "Aktif";
+									$dataPilihanLanjutMAktif[] = ['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID => form_error('lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID)];
 								}else{
-									$dataPilihanLanjut[] = ['lanjut'.$rowJawabanPilihSingle->jawabanPSID => form_error('lanjut'.$rowJawabanPilihSingle->jawabanPSID)];
+									$zxx1 = "Tidak Aktif";
+									$dataPilihanLanjutMAktif[] = ['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID => form_error('lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID)];
 								}	
 							}
 							else{
-								$dataPilihanLanjut[] = ['lanjut'.$rowJawabanPilihSingle->jawabanPSID => ''];
+								$zxx1 = "Kosong";
+								$dataPilihanLanjutMAktif[] = ['lanjutMAktif'.$rowJawabanPilihSingle->jawabanPSID => ''];
+							}
+						}
+					}
+
+					if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){
+						$pertanyaanID = $rowPertanyaan->pertanyaanID;
+						$datapilihSingle_m_tidak_aktif[] = ['pilihSingle'.$pertanyaanID => form_error('pilihSingle'.$pertanyaanID)];
+
+						$dataJawabanPilihSingle['dataJawabanPilihSingle'] = $this->Jawaban_m->getJawabanPilihSingleAll($pertanyaanID)->result();
+						foreach($dataJawabanPilihSingle['dataJawabanPilihSingle'] as $rowJawabanPilihSingle){
+							if(isset($_POST['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID])){
+								$zxxx[] = $rowJawabanPilihSingle->jawabanPSID;
+								if($postCheck['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID] != true){
+									$dataPilihanLanjutTMAktif[] = ['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID => form_error('lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID)];
+								}else{
+									$dataPilihanLanjutTMAktif[] = ['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID => form_error('lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID)];
+								}	
+							}
+							else{
+								$dataPilihanLanjutTMAktif[] = ['lanjutMTAktif'.$rowJawabanPilihSingle->jawabanPSID => ''];
 							}
 						}
 					}
@@ -120,15 +168,17 @@ class Pertanyaan extends CI_Controller {
 			$datax = array(
 				'status' => 'gagal',
 				'essay' => $dataEssay,
-				'pilihSingle' => $datapilihSingle,
-				'pilihanLanjut' => $dataPilihanLanjut,
+				'pilihSingle_m_aktif' => $datapilihSingle_m_aktif,
+				'pilihSingle_m_tidak_aktif' => $datapilihSingle_m_tidak_aktif,
+				'pilihanLanjutMAktif' => $dataPilihanLanjutMAktif,
+				'pilihanLanjutMTAktif' => $dataPilihanLanjutTMAktif,
 				'pilihMultiple' => $pilihMultiple,
 			);
 	
             
         }else{
 			$post = $this->input->post(null, TRUE);
-
+			$zxap = array();
 			$postKategoriID = $this->input->post('pertanyaanKategoriID');
 			$dataPertanyaanAlumni = $this->Pertanyaan_m->getPKategoriAllByID($postKategoriID)->result();
 
@@ -167,8 +217,90 @@ class Pertanyaan extends CI_Controller {
 						}
 					}
 
-					if($rowPertanyaanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
-						if($post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID]){
+					if($rowPertanyaanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif'){
+						
+						// if($post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID.$rowAlumniPSAktif->jawabanPSID]){
+							$parseJAlumni = array(
+								'alumniID' => $post['alumniID'],
+								'pertanyaanID' => $rowPertanyaanAlumni->pertanyaanID,
+								'jawabanAlumniStatus' => 'sukses'
+							);
+							$xza[] = $parseJAlumni;
+
+							$dataCheckAlumniJawaban = $this->JawabanAlumni_m->getJawabanAlumniCheck($parseJAlumni);
+							if($dataCheckAlumniJawaban->result() != null){
+								$zxID = array();
+								$dataAlumniPSAktifI = array();
+								foreach($dataCheckAlumniJawaban->result() as $rowCheckAlumniJawaban){
+									$parseJAlumni['jawabanAlumniID'] =  $rowCheckAlumniJawaban->jawabanAlumniID;
+									$dataAlumniPSAktifID = $this->JawabanAlumni_m->getJawabanPSByjawabanAlumniID($parseJAlumni['jawabanAlumniID'])->result();
+									foreach($dataAlumniPSAktifID as $rowAlumniPSAktifID){
+										$xData = $rowAlumniPSAktifID->jawabanAlumniPSID;
+										$xData1 = $rowAlumniPSAktifID->jawabanAlumniPS_jawabanAlumniID;
+										$this->JawabanAlumni_m->deleteJawabanAlumniPSLanjut($xData);
+										$this->JawabanAlumni_m->deleteJawabanAlumniPS($xData1);
+
+										
+										
+									}
+									$id = $rowCheckAlumniJawaban->jawabanAlumniID;
+									$dataAlumniPSAktif = $this->Pertanyaan_m->getPertanyaanPilihanSingleID($rowPertanyaanAlumni->pertanyaanID)->result();
+									foreach($dataAlumniPSAktif as $rowAlumniPSAktif){
+											
+										if($rowAlumniPSAktif->jawabanPSID == isset($post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID.$rowAlumniPSAktif->jawabanPSID])){
+											$parsePilihSMAktif = array(
+												'jawabanAlumniID' => $id,
+												'jawabanAlumniPS_JID' => $post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID.$rowAlumniPSAktif->jawabanPSID],
+			
+											);
+											$idPSJ = $this->JawabanAlumni_m->addJawabanAlumniPS($parsePilihSMAktif);
+											
+												if($rowAlumniPSAktif->jawabanPSLanjutan == 'aktif'){
+													$parsePilihSMAktifLanjut = array(
+														'jawabanAlumniPSID' => $idPSJ,
+														'jawabanPSLDesk' => $post['lanjutMAktif'.$rowAlumniPSAktif->jawabanPSID],
+													);
+													$this->JawabanAlumni_m->addJawabanAlumniPSLanjut($parsePilihSMAktifLanjut);
+												}
+										}
+									}
+								}
+
+								
+								// edit data
+							}else{
+								$id = $this->JawabanAlumni_m->addJawabanAlumni($parseJAlumni);
+								//Add Data
+								$dataAlumniPSAktif = $this->Pertanyaan_m->getPertanyaanPilihanSingleID($rowPertanyaanAlumni->pertanyaanID)->result();
+								foreach($dataAlumniPSAktif as $rowAlumniPSAktif){
+									if($rowAlumniPSAktif->jawabanPSID == isset($post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID.$rowAlumniPSAktif->jawabanPSID])){
+										$parsePilihSMAktif = array(
+											'jawabanAlumniID' => $id,
+											'jawabanAlumniPS_JID' => $post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID.$rowAlumniPSAktif->jawabanPSID],
+		
+										);
+										$idPSJ = $this->JawabanAlumni_m->addJawabanAlumniPS($parsePilihSMAktif);
+										if($rowAlumniPSAktif->jawabanPSLanjutan == 'aktif'){
+											$parsePilihSMAktifLanjut = array(
+												'jawabanAlumniPSID' => $idPSJ,
+												'jawabanPSLDesk' => $post['lanjutMAktif'.$rowAlumniPSAktif->jawabanPSID],
+											);
+											$this->JawabanAlumni_m->addJawabanAlumniPSLanjut($parsePilihSMAktifLanjut);
+										}
+									}
+								}
+								
+							}
+
+
+
+						// }
+
+						
+					}
+
+					if($rowPertanyaanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){
+						// if($post['pilihSingle'.$rowPertanyaanAlumni->pertanyaanID]){
 							$parseJAlumni = array(
 								'alumniID' => $post['alumniID'],
 								'pertanyaanID' => $rowPertanyaanAlumni->pertanyaanID,
@@ -205,7 +337,7 @@ class Pertanyaan extends CI_Controller {
 										$parse = array(
 											'jawabanAlumniPSLID' => $rowJawabanPSL->jawabanAlumniPSLID,
 											'jawabanAlumniPSID' => $dataPSID,
-											'jawabanPSLDesk' => $post['lanjut'.$rowJawabanPilihSinglex->jawabanPSID]
+											'jawabanPSLDesk' => $post['lanjutMTAktif'.$rowJawabanPilihSinglex->jawabanPSID]
 										);
 										$this->JawabanAlumni_m->editJawabanAlumniPSLanjut($parse);
 									}else{
@@ -217,16 +349,15 @@ class Pertanyaan extends CI_Controller {
 									if($rowJawabanPilihSinglex->jawabanPSLanjutan == 'aktif'){
 										$parse = array(
 											'jawabanAlumniPSID' => $dataPSID,
-											'jawabanPSLDesk' => $post['lanjut'.$rowJawabanPilihSinglex->jawabanPSID]
+											'jawabanPSLDesk' => $post['lanjutMTAktif'.$rowJawabanPilihSinglex->jawabanPSID]
 										);
 										$this->JawabanAlumni_m->addJawabanAlumniPSLanjut($parse);
 									}
 								}
 							}
-						}
+						// }
+				
 					}
-
-
 
 					if($rowPertanyaanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){
 						$dataJawabanPilihMultiplex = $this->Jawaban_m->getJawabanPilihMultipleAll($rowPertanyaanAlumni->pertanyaanID)->result();
@@ -311,9 +442,15 @@ class Pertanyaan extends CI_Controller {
 			);
 
 		}
-		// echo json_encode($postx);
-		
 		echo json_encode($datax);
 		
+		// echo json_encode($zxx3);
+		
+	}
+
+	public function getCheckBox(){
+		$id = $this->input->get('id');
+		$dataPertanyaan = $this->Pertanyaan_m->getPertanyaanPilihanSingleID($id)->result();
+		echo json_encode($dataPertanyaan);
 	}
 }

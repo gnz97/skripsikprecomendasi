@@ -43,7 +43,6 @@
                                 <tr>
                                     <th width="5%">#</th>
                                     <th>Nama Petugas</th>
-                                    <th>Role</th>
                                     <th>Username</th>
                                     <th>Password</th>
                                     <th>Action</th>
@@ -56,7 +55,6 @@
                                     <tr>
                                         <td><?=$id++?></td>
                                         <td><?=$rowPetugas->petugasNama?></td>
-                                        <td><?=$rowPetugas->petugasRule?></td>
                                         <td><?=$rowPetugas->petugasUsername?></td>
                                         <td><?=$rowPetugas->petugasPassword?></td>
                                         <td>

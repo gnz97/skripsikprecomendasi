@@ -49,11 +49,11 @@ class JawabanAlumni_m extends CI_Model{
 
     public function editJawabanAlumni($post){
         $params = array(
-            'jawabanAlumni_alumniID' => $post['alumniID'],
             'jawabanAlumni_pertanyaanID' => $post['pertanyaanID'],
             'jawabanAlumniStatus' => $post['jawabanAlumniStatus'],
         );
         $this->db->where('jawabanAlumniID', $post['jawabanAlumniID']);
+        $this->db->where('jawabanAlumni_alumniID', $post['alumniID']);
         $query = $this->db->update('tb_jawaban_alumni', $params);
         $id = $this->db->insert_id();
         return $id;
@@ -63,6 +63,8 @@ class JawabanAlumni_m extends CI_Model{
         $this->db->where_in('jawabanAlumni_alumniID', $id);
         $this->db->delete('tb_jawaban_alumni');
     }
+
+    
 
 
     //////////////////////////////////////////////////////
@@ -211,7 +213,7 @@ class JawabanAlumni_m extends CI_Model{
     }
 
     public function deleteJawabanAlumniPSLanjut($id){
-        $this->db->where('jawabanAlumniPSL_jawabanAlumniPSID', $id);
+        $this->db->where_in('jawabanAlumniPSL_jawabanAlumniPSID', $id);
         $this->db->delete('tb_jawaban_alumni_ps_lanjut');
     }
 

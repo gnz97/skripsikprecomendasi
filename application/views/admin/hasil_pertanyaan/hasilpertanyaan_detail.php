@@ -29,7 +29,7 @@
                     <div class="card card-primary card-outline">
                     <div class="card-body box-profile">
                         <div class="text-center">
-                        <img class="profile-user-img img-fluid img-circle" src="<?= base_url()?>assets/images/admin.jpg" alt="User profile picture">
+                        <img class="profile-user-img img-fluid " src="<?= base_url()?>assets/images/logo.png" alt="User profile picture">
                         </div>
 
                         <h3 class="profile-username text-center"><?=$dataAlumni->alumniNama?></h3>
@@ -75,7 +75,10 @@
                                     <!-- Post -->
                                     <div class="post">
                                         <p>Kategori Pertanyaan</p>
-                                        <input class="form-control form-control-sm" type="text" value="<?=$dataPertanyaanKategori->pertanyaanKDesk?>" readonly placeholder="Jawaban">
+                                        <hr>
+                                            <li><?=$dataPertanyaanKategori->pertanyaanKDesk?></li>
+                                            <!-- <input class="form-control form-control-sm" type="text" value="" readonly placeholder="Jawaban"> -->
+                                            
                                     </div>
 
 
@@ -105,7 +108,11 @@
                                                 <!-- Post -->
                                                 <div class="post">
                                                     <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
-                                                    <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniEssay->jawabanAlumniEsayDesk?>" readonly placeholder="Jawaban">
+                                                    <hr>
+                                                    
+                                                    <li><?=$rowJawabanAlumniEssay->jawabanAlumniEsayDesk?></li>
+                                                        <!-- <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniEssay->jawabanAlumniEsayDesk?>" readonly placeholder="Jawaban"> -->
+                                                    
                                                 </div>
 
 
@@ -118,42 +125,80 @@
                                                 <?php }} ?>
                                       <?php }else if($rowJawabanAlumni->pertanyaanKategoriJawaban == 'pilihan'){ ?>
                                                     
-                                            <?php  if($rowJawabanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){ ?>
+                                            <?php  if($rowJawabanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif'){ ?>
                                                 
                                                 <div class="card">
-                                <!-- <div class="card-header p-2">
-                                    <ul class="nav nav-pills">
-                                    <li class="nav-item">DATA PERTANYAAN</li>
-                                        
-                                    </ul>
-                                </div> -->
-                                <!-- /.card-header -->
-                                <div class="card-body">
-                                        <div class="tab-content">
-                                            <div class="tab-pane active" id="activity">
+                                                    <div class="card-body">
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="activity">
+                                                                    
+                                                                    <div class="post">
+                                                                        <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
+                                                                        <hr>
+                                                                        
+                                                                        <?php foreach($dataJawabanAlumniPS as $rowJawabanAlumniPS){?>
+                                                                            
+                                                                            <?php if($rowJawabanAlumniPS->jawabanAlumniPS_jawabanAlumniID == $rowJawabanAlumni->jawabanAlumniID){?>
+
+                                                                                <!-- <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniPS->jawabanPSDesk?>" readonly> -->
+                                                                                <li><?=$rowJawabanAlumniPS->jawabanPSDesk?></li>
+                                                                                <?php if($rowJawabanAlumniPS->jawabanPSLanjutan == 'aktif'){?>
+                                                                                    <?php foreach($dataJawabanAlumniPSLanjut as $rowJawabanAlumniPSLanjut){?>
+                                                                                        <?php if($rowJawabanAlumniPSLanjut->jawabanAlumniPSL_jawabanAlumniPSID == $rowJawabanAlumniPS->jawabanAlumniPSID){?>
+                                                                                            <div class="ml-3">
+                                                                                            <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniPSLanjut->jawabanAlumniPSLDesk?>" readonly>
+                                                                                            </div>
+                                                                                        <?php } ?>
+                                                                                    <?php } ?>
+                                                                                <?php } ?>
+                                                                                
+                                                                            <?php } ?>
+                                                                         <?php } ?> 
+                                                                        
+                                                                    </div>
+                                                                    
+                                                                    
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.tab-content -->
+                                                            </div><!-- /.card-body -->
+                                                            
+                                                    </div>
+
+                                                    <?php  }else if($rowJawabanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){ ?>
                                                 
-                                                <div class="post">
-                                                    <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
-                                                    <?php foreach($dataJawabanAlumniPS as $rowJawabanAlumniPS){
-                                                        if($rowJawabanAlumniPS->jawabanAlumniPS_jawabanAlumniID == $rowJawabanAlumni->jawabanAlumniID){
-                                                            if($rowJawabanAlumniPS->jawabanPSLanjutan == 'aktif'){
-                                                                foreach($dataJawabanAlumniPSLanjut as $rowJawabanAlumniPSLanjut){
-                                                                    if($rowJawabanAlumniPSLanjut->jawabanAlumniPSL_jawabanAlumniPSID == $rowJawabanAlumniPS->jawabanAlumniPSID){
-                                                        ?>
-                                                                <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniPSLanjut->jawabanAlumniPSLDesk?>" readonly placeholder="Jawaban">
-                                                                <?php }} ?>
-                                                        <?php }else{?>
-                                                            <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniPS->jawabanPSDesk?>" readonly placeholder="Jawaban">
-                                                    <?php }}} ?>
-                                                </div>
-                                                
-                                                
-                                                </div>
-                                            </div>
-                                            <!-- /.tab-content -->
-                                        </div><!-- /.card-body -->
-                                        
-                                    </div>
+                                                <div class="card">
+                                                    <div class="card-body">
+                                                            <div class="tab-content">
+                                                                <div class="tab-pane active" id="activity">
+                                                                    
+                                                                    <div class="post">
+                                                                        <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
+                                                                        <hr>
+                                                                           
+                                                                        <?php foreach($dataJawabanAlumniPS as $rowJawabanAlumniPS){
+                                                                            if($rowJawabanAlumniPS->jawabanAlumniPS_jawabanAlumniID == $rowJawabanAlumni->jawabanAlumniID){
+                                                                                if($rowJawabanAlumniPS->jawabanPSLanjutan == 'aktif'){
+                                                                                    foreach($dataJawabanAlumniPSLanjut as $rowJawabanAlumniPSLanjut){
+                                                                                        if($rowJawabanAlumniPSLanjut->jawabanAlumniPSL_jawabanAlumniPSID == $rowJawabanAlumniPS->jawabanAlumniPSID){
+                                                                            ?>
+                                                                            <li><?=$rowJawabanAlumniPSLanjut->jawabanAlumniPSLDesk?></li>
+                                                                                    <!-- <input class="form-control form-control-sm" type="text" value="" readonly placeholder="Jawaban"> -->
+                                                                                    <?php }} ?>
+                                                                            <?php }else{?>
+
+                                                                                <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniPS->jawabanPSDesk?>" readonly placeholder="Jawaban">
+                                                                        <?php }}} ?>
+                                                                       
+                                                                    </div>
+                                                                    
+                                                                    
+                                                                    </div>
+                                                                </div>
+                                                                <!-- /.tab-content -->
+                                                            </div><!-- /.card-body -->
+                                                            
+                                                    </div>
 
                                             <?php }else if($rowJawabanAlumni->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){ ?>
                                                 <div class="card">
@@ -170,12 +215,16 @@
                                                 
                                                 <div class="post">
                                                     <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
+                                                    <hr>
+                                                      
                                                     <?php foreach($dataJawabanAlumniPM as $rowJawabanAlumniPM){?>
                                                         <?php if($rowJawabanAlumniPM->jawabanAlumniPM_jawabanAlumniID == $rowJawabanAlumni->jawabanAlumniID){?>
                                                             <p><?=$rowJawabanAlumniPM->jawabanPMDesk?></p>
-                                                            <input class="form-control form-control-sm" type="text" value="<?=$rowJawabanAlumniPM->djawabanPMDesk?>" readonly placeholder="Jawaban">
+                                                            <li><?=$rowJawabanAlumniPM->djawabanPMDesk?></li>
+                                                            <!-- <input class="form-control form-control-sm" type="text" value="" readonly placeholder="Jawaban"> -->
                                                         <?php } ?>
                                                     <?php } ?>
+                                                   
                                                 </div>
 
                                                 </div>
@@ -204,13 +253,21 @@
                                                                         <!-- Post -->
                                                                         <div class="post">
                                                                             <p><?=$rowJawabanAlumni->pertanyaanDesk?></p>
+                                                                            <hr>
+                                                                                
                                                                             <p>Provinsi</p>
-                                                                            <input class="form-control form-control-sm" id="provinsix" type="hidden" value="<?=$rowJawabanAlumniAlamat->jawabanAluminAlamatProvinsi?>" readonly placeholder="Jawaban">
-                                                                            <input class="form-control form-control-sm" id="provinsi" type="text"  readonly placeholder="Jawaban">
-                                                                            <p>Kabupaten</p>
+                                                                            <div class="ml-3">
+                                                                                <input class="form-control form-control-sm" id="provinsix" type="hidden" value="<?=$rowJawabanAlumniAlamat->jawabanAluminAlamatProvinsi?>" readonly placeholder="Jawaban">
+                                                                                <input class="form-control form-control-sm" id="provinsi" type="text"  readonly placeholder="Jawaban">
+                                                                            </div>
+                                                                           
+                                                                                <p>Kabupaten</p>
+                                                                                <div class="ml-3">
                                                                             <input class="form-control form-control-sm" id="kabupatenx" type="hidden" value="<?=$rowJawabanAlumniAlamat->jawabanAluminAlamatKabupaten?>" readonly placeholder="Jawaban">
                                                                             <input class="form-control form-control-sm" id="kabupaten" type="text"  readonly placeholder="Jawaban">
+                                                                            </div>    
                                                                         </div>
+                                                                       
 
 
                                                                         </div>

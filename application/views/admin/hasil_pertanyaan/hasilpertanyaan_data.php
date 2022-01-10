@@ -38,7 +38,7 @@
                                     <th>Nim</th>
                                     <th>Nama Alumni</th>
                                     <th>Tahun Lulus</th>
-                                    <th>Karir/Lanjutan S2</th>
+                                    <th>Karir/Lanjutan Kuliah</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>

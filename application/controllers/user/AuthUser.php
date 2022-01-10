@@ -1,11 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class AuthAdmin extends CI_Controller {
+class AuthUser extends CI_Controller {
 	
     //Menampilkan Halaman Login
 	public function login(){
-		check_already_login_petugas();
-		$this->load->view('admin/login_admin');
+		check_already_login_user();
+		$this->load->view('user/login_user');
 	}
 
     //Proses Auth Login
@@ -14,25 +14,25 @@ class AuthAdmin extends CI_Controller {
         // var_dump($post);
 		
 		if(isset($post['login'])){
-			$this->load->model('Petugas_m');
-			$query = $this->Petugas_m->loginAdmin($post);
+			$this->load->model('Alumni_m');
+			$query = $this->Alumni_m->loginUser($post);
 			
 			if($query->num_rows()>0){
 				$row = $query->row();
 				$params = array(
-					'petugasID' => $row->petugasID,
+					'alumniID' => $row->alumniID,
 					// 'hakAksesID'  => $row->hakAksesID
 				);
 				$this->session->set_userdata($params);
 				echo "<script>
 						alert('Selamat, Login Berhasil');
-						window.location='".site_url('admin/Dashboard')."';
+						window.location='".site_url('user/Dashboard')."';
 					</script>";
 			}
 			else{
 				echo "<script>
 						alert('Login Gagal, Username/Password Salah');
-						window.location='".site_url('AuthAdmin/login')."';
+						window.location='".site_url('user/AuthUser/login')."';
 					</script>";
 			}
 		}
@@ -44,9 +44,9 @@ class AuthAdmin extends CI_Controller {
    
     
     public function logout(){
-		$params = array('petugasID');
+		$params = array('alumniID');
 		$this->session->unset_userdata($params);
-		redirect('AuthAdmin/login');
+		redirect('user/AuthUser/login');
 
 	}
 }

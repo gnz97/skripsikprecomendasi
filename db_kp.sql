@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 01, 2021 at 07:52 PM
+-- Generation Time: Dec 25, 2021 at 08:05 AM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.4.23
 
@@ -53,8 +53,7 @@ INSERT INTO `tb_alumni` (`alumniID`, `alumniNim`, `alumniNik`, `alumniNpwp`, `al
 (3, 2355, 2355, 235, 'indah', NULL, 'dfg', '2020', '08124321212', 'asddd@gmail.com', '111', '111', 'ddf', NULL),
 (4, 14030001, 346, 345, 'aaaaa123', NULL, 'dfg', '', '456', 'dfg', '14030001', '14030001', 'dfg', NULL),
 (5, 13030027, 565, 34656, 'indah', 'INFORMATIKA', 'hg', '', '87686', 'indah@gmail.com', '13030027', '13030027', 'df', NULL),
-(6, 13030001, 123, 123, 'Ken', NULL, 'informatika', '2013', '8123333', 'ken@gmail.com', '13030001', '13030001', 'fg', NULL),
-(8, 18030025, 9786, 908675, 'maharani', NULL, 'informatika', '2009', '0888263015137', 'rani@gmail.com', '18030025', '18030025', 'jomblangan', NULL);
+(8, 18030025, 9786, 908675, 'maharani', 'Industri', 'informatika', '2009', '0888263015137', 'rani@gmail.com', '18030025', '18030025', 'jomblangancc', NULL);
 
 -- --------------------------------------------------------
 
@@ -81,6 +80,13 @@ CREATE TABLE `tb_jawaban_alumni` (
   `jawabanAlumni_pertanyaanID` int(11) DEFAULT NULL,
   `jawabanAlumniStatus` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_jawaban_alumni`
+--
+
+INSERT INTO `tb_jawaban_alumni` (`jawabanAlumniID`, `jawabanAlumni_alumniID`, `jawabanAlumni_pertanyaanID`, `jawabanAlumniStatus`) VALUES
+(383, 5, 161, 'sukses');
 
 -- --------------------------------------------------------
 
@@ -119,6 +125,13 @@ CREATE TABLE `tb_jawaban_alumni_ps` (
   `jawabanAlumniPS_jawabanPSID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `tb_jawaban_alumni_ps`
+--
+
+INSERT INTO `tb_jawaban_alumni_ps` (`jawabanAlumniPSID`, `jawabanAlumniPS_jawabanAlumniID`, `jawabanAlumniPS_jawabanPSID`) VALUES
+(406, 383, 175);
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +143,13 @@ CREATE TABLE `tb_jawaban_alumni_ps_lanjut` (
   `jawabanAlumniPSL_jawabanAlumniPSID` int(11) DEFAULT NULL,
   `jawabanAlumniPSLDesk` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_jawaban_alumni_ps_lanjut`
+--
+
+INSERT INTO `tb_jawaban_alumni_ps_lanjut` (`jawabanAlumniPSLID`, `jawabanAlumniPSL_jawabanAlumniPSID`, `jawabanAlumniPSLDesk`) VALUES
+(150, 406, 'ppa');
 
 -- --------------------------------------------------------
 
@@ -148,9 +168,7 @@ CREATE TABLE `tb_jawaban_pm` (
 --
 
 INSERT INTO `tb_jawaban_pm` (`jawabanPMID`, `jawabanPM_pertanyaanID`, `jawabanPMDesk`) VALUES
-(17, 58, 'Etika'),
-(18, 58, 'Komunikasi Lisan'),
-(19, 58, 'Pengembangan Diri');
+(22, 162, 'hrgrgrgrgsg');
 
 -- --------------------------------------------------------
 
@@ -169,18 +187,10 @@ CREATE TABLE `tb_jawaban_pm_detail` (
 --
 
 INSERT INTO `tb_jawaban_pm_detail` (`djawabanPMID`, `djawabanPM_jawabanPMID`, `djawabanPMDesk`) VALUES
-(46, 17, 'Kurang'),
-(47, 17, 'Cukup'),
-(48, 17, 'Baik'),
-(49, 17, 'Sangat Baik'),
-(50, 18, 'Kurang'),
-(51, 18, 'Cukup'),
-(52, 18, 'Baik'),
-(53, 18, 'Sangat Baik'),
-(54, 19, 'Kurang'),
-(55, 19, 'Cukup'),
-(56, 19, 'Baik'),
-(57, 19, 'Sangat Baik');
+(66, 22, 'sfe'),
+(67, 22, 'ef'),
+(68, 22, 'fe'),
+(69, 22, 'grg');
 
 -- --------------------------------------------------------
 
@@ -200,21 +210,16 @@ CREATE TABLE `tb_jawaban_ps` (
 --
 
 INSERT INTO `tb_jawaban_ps` (`jawabanPSID`, `jawabanPS_pertanyaanID`, `jawabanPSLanjutan`, `jawabanPSDesk`) VALUES
-(1, 15, 'tidak_aktif', 'Sangat Erat'),
-(2, 15, 'tidak_aktif', 'Erat'),
-(3, 15, 'tidak_aktif', 'Cukup Erat'),
-(4, 15, 'tidak_aktif', 'Tidak Sama Skali'),
-(5, 49, 'tidak_aktif', 'Biaya Sendiri'),
-(6, 49, 'aktif', 'Beasiswa, Sebutkan..'),
-(22, 60, 'tidak_aktif', 'Tidak'),
-(23, 60, 'aktif', 'Ya, Sebutkan...'),
-(24, 61, 'tidak_aktif', 'Sangat Dekat'),
-(25, 61, 'tidak_aktif', 'Dekat'),
-(26, 61, 'tidak_aktif', 'Jauh'),
-(27, 61, 'tidak_aktif', 'Sangat Jauh'),
-(105, 111, 'tidak_aktif', 'swasta'),
-(106, 111, 'tidak_aktif', 'bumn'),
-(107, 111, 'aktif', 'lainnya...');
+(154, 150, 'aktif', 'coba jawaban 1'),
+(155, 150, 'aktif', 'coba jawaban 2'),
+(160, 152, 'aktif', 'jika ya, berapa bulan?'),
+(161, 152, 'aktif', 'jika tidak, berapa bulan'),
+(171, 157, 'tidak_aktif', 'jawaban 1'),
+(172, 157, 'tidak_aktif', 'jawaban 2'),
+(173, 157, 'aktif', 'jawaban 3 Lainya, benar-benar lain dari yang lain'),
+(174, 161, 'tidak_aktif', 'biaya sendiri'),
+(175, 161, 'aktif', 'beasiswa, sebutkan'),
+(176, 150, 'tidak_aktif', 'biaya sendiri');
 
 -- --------------------------------------------------------
 
@@ -236,15 +241,15 @@ CREATE TABLE `tb_pertanyaan` (
 --
 
 INSERT INTO `tb_pertanyaan` (`pertanyaanID`, `pertanyaan_pertanyaanKID`, `pertanyaanKategoriJawaban`, `pertanyaanKriteriaJawaban`, `pertanyaanDesk`, `pertanyaanUrutan`) VALUES
-(15, 1, 'pilihan', 'kriteria_pilih_single', 'Seberapa Erat Hubungan antara bidang anda?', 2),
-(49, 1, 'pilihan', 'kriteria_pilih_single', 'Sumber dana Kuliah S2?', 1),
-(58, 1, 'pilihan', 'kriteria_pilih_multiple', 'Evaluasi', 14),
-(59, 1, 'esay', 'kriteria_esay', 'Penghasila', 15),
-(60, 1, 'pilihan', 'kriteria_pilih_single', 'Memiliki Sertifikat?', 16),
-(61, 1, 'pilihan', 'kriteria_pilih_single', 'Seberapa dekat anda dengan lokasi kantor?', 17),
-(100, 1, 'alamat', 'kriteria_alamat', 'lokasi tempat kerja?', 13),
-(111, 1, 'pilihan', 'kriteria_pilih_single', 'apa posisi jabatan sekarang?', 3),
-(112, 2, 'esay', 'kriteria_esay', 'prodi jurusan yang diambil?', 1);
+(150, 1, 'pilihan', 'kriteria_pilih_single_m_aktif', 'coba 1', 1),
+(152, 1, 'pilihan', 'kriteria_pilih_single_m_tidak_aktif', 'apakah sudah mendapatkan pekerjaan', 45),
+(156, 1, 'alamat', 'kriteria_alamat', 'alamat', 20),
+(157, 1, 'pilihan', 'kriteria_pilih_single_m_aktif', 'coba tes yang berikutnya, benar-benar berikutnya', 16),
+(158, 1, 'esay', 'kriteria_esay', 'segeg', 56),
+(161, 2, 'pilihan', 'kriteria_pilih_single_m_tidak_aktif', 'sumber dana', 5),
+(162, 1, 'pilihan', 'kriteria_pilih_multiple', 'ege', 456),
+(167, 1, 'esay', 'kriteria_esay', 'segeg11211', 56),
+(168, 1, 'esay', 'kriteria_esay', 'pekerjaan21', 56);
 
 -- --------------------------------------------------------
 
@@ -274,7 +279,6 @@ INSERT INTO `tb_pertanyaan_kategori` (`pertanyaanKID`, `pertanyaanKDesk`) VALUES
 CREATE TABLE `tb_petugas` (
   `petugasID` int(11) NOT NULL,
   `petugasNama` varchar(255) DEFAULT NULL,
-  `petugasRule` varchar(255) DEFAULT NULL,
   `petugasUsername` varchar(255) DEFAULT NULL,
   `petugasPassword` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -283,10 +287,10 @@ CREATE TABLE `tb_petugas` (
 -- Dumping data for table `tb_petugas`
 --
 
-INSERT INTO `tb_petugas` (`petugasID`, `petugasNama`, `petugasRule`, `petugasUsername`, `petugasPassword`) VALUES
-(1, 'admin1', 'admin1', 'admin1', 'admin1'),
-(4, 'petugas4', 'petugas4', 'petugas4', 'petugas4'),
-(7, 'admin2', 'admin2', 'admin2', 'admin2');
+INSERT INTO `tb_petugas` (`petugasID`, `petugasNama`, `petugasUsername`, `petugasPassword`) VALUES
+(1, 'admin1', 'admin1', 'admin1'),
+(4, 'petugas5', 'petugas5', 'petugas5'),
+(7, 'admin2', 'admin2', 'admin2');
 
 --
 -- Indexes for dumped tables
@@ -392,67 +396,67 @@ ALTER TABLE `tb_petugas`
 -- AUTO_INCREMENT for table `tb_alumni`
 --
 ALTER TABLE `tb_alumni`
-  MODIFY `alumniID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `alumniID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_alumin_alamat`
 --
 ALTER TABLE `tb_jawaban_alumin_alamat`
-  MODIFY `jawabanAluminAlamatID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `jawabanAluminAlamatID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_alumni`
 --
 ALTER TABLE `tb_jawaban_alumni`
-  MODIFY `jawabanAlumniID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `jawabanAlumniID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=384;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_alumni_essay`
 --
 ALTER TABLE `tb_jawaban_alumni_essay`
-  MODIFY `jawabanAlumniEsayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `jawabanAlumniEsayID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_alumni_pm`
 --
 ALTER TABLE `tb_jawaban_alumni_pm`
-  MODIFY `jawabanAlumniPMID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=181;
+  MODIFY `jawabanAlumniPMID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=219;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_alumni_ps`
 --
 ALTER TABLE `tb_jawaban_alumni_ps`
-  MODIFY `jawabanAlumniPSID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=231;
+  MODIFY `jawabanAlumniPSID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=407;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_alumni_ps_lanjut`
 --
 ALTER TABLE `tb_jawaban_alumni_ps_lanjut`
-  MODIFY `jawabanAlumniPSLID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `jawabanAlumniPSLID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=151;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_pm`
 --
 ALTER TABLE `tb_jawaban_pm`
-  MODIFY `jawabanPMID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `jawabanPMID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_pm_detail`
 --
 ALTER TABLE `tb_jawaban_pm_detail`
-  MODIFY `djawabanPMID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `djawabanPMID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- AUTO_INCREMENT for table `tb_jawaban_ps`
 --
 ALTER TABLE `tb_jawaban_ps`
-  MODIFY `jawabanPSID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
+  MODIFY `jawabanPSID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=177;
 
 --
 -- AUTO_INCREMENT for table `tb_pertanyaan`
 --
 ALTER TABLE `tb_pertanyaan`
-  MODIFY `pertanyaanID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=113;
+  MODIFY `pertanyaanID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=169;
 
 --
 -- AUTO_INCREMENT for table `tb_pertanyaan_kategori`
@@ -464,7 +468,7 @@ ALTER TABLE `tb_pertanyaan_kategori`
 -- AUTO_INCREMENT for table `tb_petugas`
 --
 ALTER TABLE `tb_petugas`
-  MODIFY `petugasID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `petugasID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Constraints for dumped tables
@@ -514,19 +518,19 @@ ALTER TABLE `tb_jawaban_alumni_ps_lanjut`
 -- Constraints for table `tb_jawaban_pm`
 --
 ALTER TABLE `tb_jawaban_pm`
-  ADD CONSTRAINT `jawabanPM_pertanyaanID` FOREIGN KEY (`jawabanPM_pertanyaanID`) REFERENCES `tb_pertanyaan` (`pertanyaanID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `jawabanPM_pertanyaanID` FOREIGN KEY (`jawabanPM_pertanyaanID`) REFERENCES `tb_pertanyaan` (`pertanyaanID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tb_jawaban_pm_detail`
 --
 ALTER TABLE `tb_jawaban_pm_detail`
-  ADD CONSTRAINT `djawabanPM_jawabanPMID` FOREIGN KEY (`djawabanPM_jawabanPMID`) REFERENCES `tb_jawaban_pm` (`jawabanPMID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `djawabanPM_jawabanPMID` FOREIGN KEY (`djawabanPM_jawabanPMID`) REFERENCES `tb_jawaban_pm` (`jawabanPMID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tb_jawaban_ps`
 --
 ALTER TABLE `tb_jawaban_ps`
-  ADD CONSTRAINT `jawabanPS_pertanyaanID` FOREIGN KEY (`jawabanPS_pertanyaanID`) REFERENCES `tb_pertanyaan` (`pertanyaanID`) ON UPDATE CASCADE;
+  ADD CONSTRAINT `jawabanPS_pertanyaanID` FOREIGN KEY (`jawabanPS_pertanyaanID`) REFERENCES `tb_pertanyaan` (`pertanyaanID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `tb_pertanyaan`

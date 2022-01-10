@@ -19,13 +19,13 @@
           
       <li class="nav-item dropdown user-menu show">
           <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
-            <img src="<?=base_url()?>assets/dist/img/user2-160x160.jpg" class="user-image img-circle elevation-2" alt="User Image">
+            <img src="<?=base_url()?>assets/images/logo.png" class="user-image " alt="User Image">
             <span class="d-none d-md-inline"><?=$this->fungsi->alumni_login()->alumniNama?></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right hide">
             <!-- User image -->
             <li class="user-header bg-primary">
-              <img src="<?=base_url()?>assets/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+              <img src="<?=base_url()?>assets/images/logo.png" class=" " alt="User Image">
 
               <p>
               <?=$this->fungsi->alumni_login()->alumniNama?> - Web Developer
@@ -37,7 +37,7 @@
             <!-- Menu Footer-->
             <li class="user-footer">
               <a href="<?=site_url('user/BiodataAlumni')?>" class="btn btn-default btn-flat">Profile</a>
-              <a href="<?=site_url('AuthUser/logout')?>" class="btn btn-default btn-flat float-right">Sign out</a>
+              <a href="<?=site_url('user/AuthUser/logout')?>" class="btn btn-default btn-flat float-right">Sign out</a>
             </li>
           </ul>
         </li>

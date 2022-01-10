@@ -61,7 +61,36 @@
 
                                 <?php }else if($rowPertanyaan->pertanyaanKategoriJawaban == 'pilihan'){?>
 
-                                    <?php  if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){ ?>
+                                    <?php  if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif'){ ?>
+                                        <div class="card w-100">
+                                                <!-- <div class="card-header">Pertanyaan</div> -->
+                                                
+                                                <div class="card-body">
+                                                    <!-- <h5 class="card-title">Special title treatment</h5> -->
+                                                    <p class="card-text"><?=$rowPertanyaan->pertanyaanDesk?></p>
+                                                    <?php foreach($dataJawabanPilihSingle as $rowJawabanPilihSingle){
+                                                        if($rowJawabanPilihSingle->jawabanPS_pertanyaanID == $rowPertanyaan->pertanyaanID){
+                                                        
+                                                            ?>
+                                                            
+                                                            <div class="form-check">
+                                                                <input class="form-check-input" type="checkbox" name="pilihSingle<?=$rowPertanyaan->pertanyaanID?>" id="kriteria_pilih_single_m_aktif" value="<?=$rowJawabanPilihSingle->jawabanPSID?>" data-id="<?=$rowJawabanPilihSingle->jawabanPSLanjutan?>" data-pertanyaanid="<?=$rowPertanyaan->pertanyaanID?>">
+                                                                <label class="form-check-label" for="exampleRadios1">
+                                                                    <?=$rowJawabanPilihSingle->jawabanPSDesk?>
+                                                                </label>
+                                                                <div id="inputLanjutanx_<?=$rowJawabanPilihSingle->jawabanPSID?>"></div>
+                                                                <div class="lanjut<?=$rowJawabanPilihSingle->jawabanPSID?> text-danger"></div>
+                                                            </div>
+                                                            
+                                                    <?php }} ?>
+                                                    <div class="pilihSingle<?=$rowPertanyaan->pertanyaanID?> text-danger"></div>
+                                                    <div id="lanjutAktifxx"></div>
+                                                </div>
+                                            </div>
+
+                                            
+                                        <?php  }else if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){?>
+                                            
                                             <div class="card w-100">
                                                 <!-- <div class="card-header">Pertanyaan</div> -->
                                                 
@@ -74,11 +103,11 @@
                                                             ?>
                                                             
                                                             <div class="form-check">
-                                                                <input class="form-check-input" type="radio" name="pilihSingle<?=$rowPertanyaan->pertanyaanID?>" id="exampleRadios1" value="<?=$rowJawabanPilihSingle->jawabanPSID?>" data-id="<?=$rowJawabanPilihSingle->jawabanPSLanjutan?>" data-pertanyaanid="<?=$rowPertanyaan->pertanyaanID?>">
+                                                                <input class="form-check-input" type="radio" name="pilihSingle<?=$rowPertanyaan->pertanyaanID?>" id="kriteria_pilih_single_m_tidak_aktif" value="<?=$rowJawabanPilihSingle->jawabanPSID?>" data-id="<?=$rowJawabanPilihSingle->jawabanPSLanjutan?>" data-pertanyaanid="<?=$rowPertanyaan->pertanyaanID?>">
                                                                 <label class="form-check-label" for="exampleRadios1">
                                                                     <?=$rowJawabanPilihSingle->jawabanPSDesk?>
                                                                 </label>
-                                                                <div id="inputLanjutanx_<?=$rowJawabanPilihSingle->jawabanPSID?>" ></div>
+                                                                <div id="inputLanjutanx2_<?=$rowJawabanPilihSingle->jawabanPSID?>" ></div>
                                                                 <div class="lanjut<?=$rowJawabanPilihSingle->jawabanPSID?> text-danger"></div>
                                                             </div>
                                                             
@@ -179,47 +208,106 @@
     <script>
 
 $(document).ready(function(){
-    $(document).on('change', '#exampleRadios1',function(){
-        
+
+    $(document).on('change', '#kriteria_pilih_single_m_aktif',function(){
+
         var a = $(this).data('id');
-        var c = $(this).data('pertanyaanid');
-        var b = $(this).val();
-        console.log(a);
-        console.log(b);
-        
-      
-       
-            // $('#inputLanjutan_aktif_'+b).addClass('d-none');
-            console.log("hell");
-            
+        var b = $(this).data('pertanyaanid');
+        var c = $(this).val();
+        if(a == 'aktif'){
+            console.log("check");
             var html = '';
-            // console.log(a);
-            var z = '#inputLanjutanx_'+b;
+            var z = '#inputLanjutanx_'+c;
             var z1 = '#lanjutAktif'+c;
-            if(a == 'aktif'){
-                console.log("aktif");
-                html = '<div class="form-group" id="lanjutAktif'+c+'">'
+            if($(this).is(':checked') == true){
+                console.log(a);
+                html += '<div class="form-group" id="lanjutAktif'+c+'">'
                         +'<input type="text"  name="lanjut'+b+'" class="form-control"/>'
                         +'</div>';
                 $(z).html(html);
-                
-            }else if(a == 'tidak_aktif'){
-                console.log("taktif");
-                console.log(z1);
+            }else{
                 $(z1).remove();
-                // a.removeChild();
-                // html = '<div class="form-group">'
-                //         +'<label>Jenis Jawaban Pilihan</label>'
-                //         +'<select class="custom-select" id="pilihanKriteriaJawaban" name="pilihanKriteriaJawaban">'
-                //         +'<option>Pilih</option>'
-                //         +'<option value="single">Jawaban Pilihan Single</option>'
-                //         +'<option value="multiple">Jawaban Pilihan Multiple</option>'
-                //         +'</select>'
-                //         +'</div>'
-                // $('#pilihanJawaban').html(html);
+                console.log("tidak aktif");
             }
-       
+        }else{
+            console.log("beda data");
+        }
         
+        
+        // console.log(a);
+        // console.log(b);
+        // console.log(c);
+
+        // var html = '';
+        // var z = '#inputLanjutanx_'+b;
+        // var z1 = '#lanjutAktif'+c;
+        // if($(this).is(':checked')){
+        //     if(a == 'aktif'){
+        //         console.log("aktif");
+        //         html = '<div class="form-group" id="lanjutAktif'+c+'">'
+        //                 +'<input type="text"  name="lanjut'+b+'" class="form-control"/>'
+        //                 +'</div>';
+        //         $(z).html(html);
+        //     }else if(a == 'tidak_aktif'){
+        //         console.log("taktif");
+        //         console.log(z1);
+        //         $(z1).remove();
+        //     }
+        // }else{
+        //     console.log("taktif");
+        //         console.log(z1);
+        //         $(z1).remove();
+        // }  
+    });
+
+
+
+    $(document).on('change', '#kriteria_pilih_single_m_tidak_aktif',function(){
+        var a = $(this).data('id');
+        var b = $(this).val();
+        var c = $(this).data('pertanyaanid');
+        var z1 = '#lanjutAktif2'+c;
+        if(a == 'aktif'){
+            console.log("check");
+            var html = '';
+            var z = '#inputLanjutanx2_'+b;
+           
+            if($(this).is(':checked') == true){
+                console.log(a);
+                html += '<div class="form-group" id="lanjutAktif2'+c+'">'
+                        +'<input type="text"  name="lanjutx'+b+'" class="form-control"/>'
+                        +'</div>';
+                $(z).html(html);
+            }else{
+                $(z1).remove();
+                console.log("tidak aktif");
+            }
+        }else{
+            $(z1).remove();
+            console.log("beda data");
+        }
+
+
+
+        // var a = $(this).data('id');
+        // var c = $(this).data('pertanyaanid');
+        // var b = $(this).val();
+        // var html = '';
+        // var z = '#inputLanjutanx2_'+c;
+        // var z1 = '#lanjutAktif2'+c;
+ 
+        // if(a == 'aktif'){
+        //     console.log("aktif");
+        //     html = '<div class="form-group" id="lanjutAktif2'+c+'">'
+        //             +'<input type="text"  name="lanjut'+b+'" class="form-control"/>'
+        //             +'</div>';
+        //     $(z).html(html);
+            
+        // }else if(a == 'tidak_aktif'){
+        //     console.log("taktif");
+        //     console.log(z1);
+        //     $(z1).remove();
+        // }  
     });
 
     dataIndodaxAPI();

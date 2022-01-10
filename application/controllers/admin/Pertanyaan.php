@@ -31,37 +31,49 @@ class Pertanyaan extends CI_Controller{
         $post = $this->input->post(null, TRUE);
         if($post['jawabanKategori'] == 'esay'){
             $post['jawabanKriteria'] = 'kriteria_esay';
-            $data = $this->Pertanyaan_m->addPertanyaan($post);
+            $this->Pertanyaan_m->addPertanyaan($post);
+            if($this->db->affected_rows() > 0){
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }
         }else if($post['jawabanKategori'] == 'pilihan'){
                 
             if($post['pilihanKriteriaJawaban'] == 'single'){
-                $post['jawabanKriteria'] = 'kriteria_pilih_single';
+               
+                if($post['singleJawabanMultiple'] == 'aktif'){
+                    $post['jawabanKriteria'] = 'kriteria_pilih_single_m_aktif';
+                }else if($post['singleJawabanMultiple'] == 'tidak_aktif'){
+                    $post['jawabanKriteria'] = 'kriteria_pilih_single_m_tidak_aktif';
+                }
                 $dataID = $this->Pertanyaan_m->addPertanyaan($post);
                 $post['pertanyaanID'] = $dataID;
-                $dcount = count($post['JawabanPilihanSingle']);
-               
-                if($post['lanjutanJawaban'] == 'aktif'){
-                    
-                    for($i=0; $i<count($post['JawabanPilihanSingle']); $i++){
-                        $post['JawabanPS'] = $post['JawabanPilihanSingle'][$i];
-                        if($i == $dcount - 1){
-                            $post['lanjutanJawaban'] = 'aktif';
-                            $post['cont'] = $dcount;
-                            $data = $this->Pertanyaan_m->addPertanyaanPilihanSingle($post);
-                        }else{
-                            $post['lanjutanJawaban'] = 'tidak_aktif';
-                            $data = $this->Pertanyaan_m->addPertanyaanPilihanSingle($post);
-                        }
-                        
+                // $post['jawabanPSMultiplex'] =['jawabanPSMultiple'];
+                for($i=1; $i<=count($post['JawabanPilihanSingle']); $i++){
+                    $post['JawabanPS'] = $post['JawabanPilihanSingle'][$i];
+                    // if($post['lanjutanJawaban'][$i] == 'checked'){
+                        $post['lanjutanJawabanx'] = $post['lanjutanJawaban'][$i];
+                        $this->Pertanyaan_m->addPertanyaanPilihanSingle($post); 
+                    // }
+                    if($this->db->affected_rows() > 0){
+                        $response = array(
+                            'status' 	=> 'success',
+                        );
+                    }else{
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
                     }
-                }else if($post['lanjutanJawaban'] == 'tidak_aktif'){
-                    for($i=0; $i<count($post['JawabanPilihanSingle']); $i++){
-                        $post['JawabanPS'] = $post['JawabanPilihanSingle'][$i];
-                        $data = $this->Pertanyaan_m->addPertanyaanPilihanSingle($post); 
-                    }
+                   
+                     
                 }
                 
-            }else if($post['pilihanKriteriaJawaban'] == 'multiple'){
+            }
+            else if($post['pilihanKriteriaJawaban'] == 'multiple'){
                 $post['jawabanKriteria'] = 'kriteria_pilih_multiple';
                 $dataID = $this->Pertanyaan_m->addPertanyaan($post);
                 $post['pertanyaanID'] = $dataID;
@@ -72,18 +84,37 @@ class Pertanyaan extends CI_Controller{
                     $post['jawabanPMID'] = $dataPMID;
                     for($j=0;$j<count($post['JawabanPilihanMultiple'.$i]); $j++){
                         $post['JawabanPilihanMultipleDetail'] = $post['JawabanPilihanMultiple'.$i][$j];
-                        $dataPMIDx = $this->Pertanyaan_m->addPertanyaanPilihanMultipleDetail($post);
+                        $this->Pertanyaan_m->addPertanyaanPilihanMultipleDetail($post);
+                        if($this->db->affected_rows() > 0){
+                            $response = array(
+                                'status' 	=> 'success',
+                            );
+                        }else{
+                            $response = array(
+                                'status' 	=> 'gagal',
+                            );
+                        }
                     }
                    
                 }
             }
            
-        }else if($post['jawabanKategori'] == 'alamat'){
+        }
+        else if($post['jawabanKategori'] == 'alamat'){
             $post['jawabanKriteria'] = 'kriteria_alamat';
-            $dataID = $this->Pertanyaan_m->addPertanyaan($post);
+            $this->Pertanyaan_m->addPertanyaan($post);
+            if($this->db->affected_rows() > 0){
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }
         }
 
-        echo json_encode($post);
+        echo json_encode($response);
     }
 
     public function viewEditPertanyaan($id){
@@ -105,6 +136,173 @@ class Pertanyaan extends CI_Controller{
         $this->load->view('admin/pertanyaan/pertanyaan_edit', $data);
     }
 
+
+    public function editPertanyaan(){
+        // $respon = array();
+        $xdata = array();
+        $post = $this->input->post(null, TRUE);
+        $id = $post['pertanyaanID'];
+        $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+        // $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+        if($rowPertanyaan->pertanyaanKategoriJawaban == 'esay'){
+            // $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+            // $this->Pertanyaan_m->deletePertanyaan($id);
+
+        }else if($rowPertanyaan->pertanyaanKategoriJawaban == 'pilihan'){
+            if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+                $data = $this->Pertanyaan_m->deletePertanyaanPilihanSingle($id);
+                $error = $this->db->error();
+                if($error['code'] != 0){
+                    $response = array(
+                        'status' 	=> 'gagal',
+                    );
+                }else{
+                    // $this->Pertanyaan_m->deletePertanyaan($id);
+                    // $error = $this->db->error();
+                    // if($error['code'] != 0){
+                    //     $response = array(
+                    //         'status' 	=> 'gagal',
+                    //     );
+                    // }
+                }
+                
+                
+            }else if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){
+                $dataPM = $this->Pertanyaan_m->getPertanyaanPilihanMultipleByID($id)->result();
+                foreach($dataPM as $rowPM){
+                    $rowPilihMID[] = $rowPM->jawabanPMID;
+                }
+                
+                $this->Pertanyaan_m->deletePertanyaanPilihanMultipleDetail($rowPilihMID);
+                $error = $this->db->error();
+                if($error['code'] != 0){
+                    $response = array(
+                        'status' 	=> 'gagal',
+                    );
+                }else{  
+                    $this->Pertanyaan_m->deletePertanyaanPilihanMultiple($id);
+                    $error = $this->db->error();
+                    if($error['code'] != 0){
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }else{
+                        // $this->Pertanyaan_m->deletePertanyaan($id);
+                        // $error = $this->db->error();
+                        // if($error['code'] != 0){
+                        //     $response = array(
+                        //         'status' 	=> 'gagal',
+                        //     );
+                        // }else{
+                           
+                        // }
+                    }
+                } 
+            }
+           
+        } 
+        // else if($rowPertanyaan->pertanyaanKategoriJawaban == 'alamat'){
+        //     // $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
+        //     $this->Pertanyaan_m->deletePertanyaan($id);
+        //     $error = $this->db->error();
+        //     if($error['code'] != 0){
+        //         $response = array(
+        //             'status' 	=> 'gagal',
+        //         );
+        //     }else{
+                
+        //     }
+        // }
+
+
+        if($post['jawabanKategori'] == 'esay'){
+            $post['jawabanKriteria'] = 'kriteria_esay';
+            $this->Pertanyaan_m->editPertanyaan($post);
+            if($this->db->affected_rows() > 0){
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }
+        }else if($post['jawabanKategori'] == 'pilihan'){
+                
+            if($post['pilihanKriteriaJawaban'] == 'single'){
+               
+                if($post['singleJawabanMultiple'] == 'aktif'){
+                    $post['jawabanKriteria'] = 'kriteria_pilih_single_m_aktif';
+                }else if($post['singleJawabanMultiple'] == 'tidak_aktif'){
+                    $post['jawabanKriteria'] = 'kriteria_pilih_single_m_tidak_aktif';
+                }
+                $dataID = $this->Pertanyaan_m->editPertanyaan($post);
+                // $post['pertanyaanID'] = $dataID;
+                // $post['jawabanPSMultiplex'] =['jawabanPSMultiple'];
+                for($i=1; $i<=count($post['JawabanPilihanSingle']); $i++){
+                    $post['JawabanPS'] = $post['JawabanPilihanSingle'][$i];
+                    // if($post['lanjutanJawaban'][$i] == 'checked'){
+                        $post['lanjutanJawabanx'] = $post['lanjutanJawaban'][$i];
+                        $this->Pertanyaan_m->addPertanyaanPilihanSingle($post); 
+                    // }
+                    if($this->db->affected_rows() > 0){
+                        $response = array(
+                            'status' 	=> 'success',
+                        );
+                    }else{
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }
+                   
+                     
+                }
+                
+            }
+            else if($post['pilihanKriteriaJawaban'] == 'multiple'){
+                $post['jawabanKriteria'] = 'kriteria_pilih_multiple';
+                $dataID = $this->Pertanyaan_m->editPertanyaan($post);
+                // $post['pertanyaanID'] = $dataID;
+                for($i=0; $i<count($post['dataMultiple']); $i++){
+                  
+                    $post['JawabanPMDesk'] = $post['JawabanPilihanMultipleDeskripsi'.$i];
+                    $dataPMID = $this->Pertanyaan_m->addPertanyaanPilihanMultiple($post);
+                    $post['jawabanPMID'] = $dataPMID;
+                    for($j=0;$j<count($post['JawabanPilihanMultiple'.$i]); $j++){
+                        $post['JawabanPilihanMultipleDetail'] = $post['JawabanPilihanMultiple'.$i][$j];
+                        $this->Pertanyaan_m->addPertanyaanPilihanMultipleDetail($post);
+                        if($this->db->affected_rows() > 0){
+                            $response = array(
+                                'status' 	=> 'success',
+                            );
+                        }else{
+                            $response = array(
+                                'status' 	=> 'gagal',
+                            );
+                        }
+                    }
+                   
+                }
+            }
+           
+        }
+        else if($post['jawabanKategori'] == 'alamat'){
+            $post['jawabanKriteria'] = 'kriteria_alamat';
+            $this->Pertanyaan_m->addPertanyaan($post);
+            if($this->db->affected_rows() > 0){
+                $response = array(
+                    'status' 	=> 'success',
+                );
+            }else{
+                $response = array(
+                    'status' 	=> 'gagal',
+                );
+            }
+        }
+
+        echo json_encode($response);
+    }
+
     public function deletePertanyaan(){
         $id = $this->input->post('id');
         $rowPertanyaan = $this->Pertanyaan_m->getByID($id)->row();
@@ -122,7 +320,7 @@ class Pertanyaan extends CI_Controller{
                 );
             }
         }else if($rowPertanyaan->pertanyaanKategoriJawaban == 'pilihan'){
-            if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+            if($rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif' || $rowPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){
                 $data = $this->Pertanyaan_m->deletePertanyaanPilihanSingle($id);
                 $error = $this->db->error();
                 if($error['code'] != 0){

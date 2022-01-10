@@ -50,10 +50,10 @@
                                         <label for="exampleInputEmail1">Password</label>
                                         <input type="text" class="form-control" name="petugasPassword" id="exampleInputEmail1" placeholder="Masukan Password">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="exampleInputEmail1">Rules</label>
                                         <input type="text" class="form-control" name="petugasRules" id="exampleInputEmail1" placeholder="Masukan Alamat">
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">

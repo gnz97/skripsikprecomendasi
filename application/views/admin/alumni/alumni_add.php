@@ -153,14 +153,14 @@
                     if(data.status == 'success'){
                         console.log("sukses");
                     
-                        // Swal.fire({
-                        //     icon: 'success',
-                        //     title: 'Berhasil',
-                        //     text: 'Data Berhasil Di Tambahkan!',
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Data Berhasil Di Tambahkan!',
                         
-                        // }).then(function() {
-                        //     window.location.assign("<?php echo base_url();?>admin/ChatKategori");
-                        // });
+                        }).then(function() {
+                            window.location.assign("<?php echo base_url();?>admin/Alumni");
+                        });
                     
                     }else{
                         $('.gejalaCode_error').html(data.gejalaCode);

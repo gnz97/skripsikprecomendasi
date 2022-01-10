@@ -37,7 +37,7 @@ class Petugas_m extends CI_Model{
     public function addPetugas($post){
         $params = array(
             'petugasNama' => $post['petugasNama'],
-            'petugasRule' => $post['petugasRules'],
+            // 'petugasRule' => $post['petugasRules'],
             'petugasUsername' => $post['petugasUsername'],
             'petugasPassword' => $post['petugasPassword'],
         );
@@ -49,7 +49,7 @@ class Petugas_m extends CI_Model{
     public function editPetugas($post){
         $params = array(
             'petugasNama' => $post['petugasNama'],
-            'petugasRule' => $post['petugasRules'],
+            // 'petugasRule' => $post['petugasRules'],
             'petugasUsername' => $post['petugasUsername'],
             'petugasPassword' => $post['petugasPassword'],
         );

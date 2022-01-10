@@ -29,7 +29,7 @@
     <div class="card-body login-card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
-      <form action="<?= base_url('AuthUser/process')?>" method="post">
+      <form action="<?= base_url('user/AuthUser/process')?>" method="post">
         <div class="input-group mb-3">
           <input type="text" name="username" class="form-control" placeholder="username">
           <div class="input-group-append">

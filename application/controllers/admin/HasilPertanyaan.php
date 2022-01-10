@@ -74,7 +74,7 @@ class HasilPertanyaan extends CI_Controller{
                 }
             }
             if($rowHasilPertanyaan->pertanyaanKategoriJawaban == 'pilihan'){
-                if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single'){
+                if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_aktif'){
                     // $zx = ;
                     $dataPertanyaanPilihan = $this->JawabanAlumni_m->getJawabanPSByjawabanAlumniID($rowHasilPertanyaan->jawabanAlumniID)->row();
                    
@@ -98,7 +98,34 @@ class HasilPertanyaan extends CI_Controller{
                         );
                     }
 
-                }else if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){
+                }
+                if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_single_m_tidak_aktif'){
+                    // $zx = ;
+                    $dataPertanyaanPilihan = $this->JawabanAlumni_m->getJawabanPSByjawabanAlumniID($rowHasilPertanyaan->jawabanAlumniID)->row();
+                   
+                    if($dataPertanyaanPilihan != null){
+
+                    
+                        if($dataPertanyaanPilihan->jawabanPSLanjutan == 'aktif'){
+                            $this->JawabanAlumni_m->deleteJawabanAlumniPSLanjut($dataPertanyaanPilihan->jawabanAlumniPSID);
+                        }
+                    }
+
+                    $this->JawabanAlumni_m->deleteJawabanAlumniPS($rowHasilPertanyaan->jawabanAlumniID);
+                    $error = $this->db->error();
+                    if($error['code'] != 0){
+                        $response = array(
+                            'status' 	=> 'gagal',
+                        );
+                    }else{
+                        $response = array(
+                            'status' 	=> 'success',
+                        );
+                    }
+
+                }
+                
+                else if($rowHasilPertanyaan->pertanyaanKriteriaJawaban == 'kriteria_pilih_multiple'){
                     $this->JawabanAlumni_m->deleteJawabanAlumniPM($rowHasilPertanyaan->jawabanAlumniID);
                     $error = $this->db->error();
                     if($error['code'] != 0){

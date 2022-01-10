@@ -37,7 +37,7 @@
                         <!-- form start -->
                             <form id="formAdd" novalidate="novalidate">
                                 <div class="card-body">
-                                <input type="text" class="form-control" name="petugasID" value="<?=$rowPetugas->petugasID?>">
+                                <input type="hidden" class="form-control" name="petugasID" value="<?=$rowPetugas->petugasID?>">
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">Nama</label>
                                         <input type="text" class="form-control" name="petugasNama" value="<?=$rowPetugas->petugasNama?>">
@@ -50,10 +50,10 @@
                                         <label for="exampleInputEmail1">Password</label>
                                         <input type="text" class="form-control" name="petugasPassword" value="<?=$rowPetugas->petugasPassword?>">
                                     </div>
-                                    <div class="form-group">
+                                    <!-- <div class="form-group">
                                         <label for="exampleInputEmail1">Rules</label>
-                                        <input type="text" class="form-control" name="petugasRules" value="<?=$rowPetugas->petugasRule?>">
-                                    </div>
+                                        <input type="text" class="form-control" name="petugasRules" value="">
+                                    </div> -->
                                 </div>
                                 <!-- /.card-body -->
                                 <div class="card-footer">
